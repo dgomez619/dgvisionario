@@ -1,0 +1,87 @@
+import React, { useState, useRef } from 'react';
+import { animate } from 'animejs';
+import Terminal from './components/Terminal';
+import BootSequence from './components/BootSequence';
+import EnterButton from './components/EnterButton';
+import Dashboard from './components/Dashboard';
+
+function App() {
+  const [view, setView] = useState('boot'); // 'boot' | 'intro' | 'dashboard'
+  const wrapperRef = useRef(null); // We need this to animate the whole screen
+
+  const handleEnterSystem = () => {
+    // THE WARP TRANSITION
+    animate(wrapperRef.current, {
+      scale: [1, 50],       // Grow from 1x to 50x (Flying through it)
+      opacity: [1, 0],      // Fade out as it gets huge
+      duration: 1500,       // Duration of the warp
+      ease: 'easeInExpo',   // Start slow, end incredibly fast
+      onComplete: () => {
+        setView('dashboard'); // Switch to the next screen
+      }
+    });
+  };
+
+  // If we are already in the dashboard, render it directly (bypassing the Terminal)
+  if (view === 'dashboard') {
+    return (
+      <div style={styles.appContainer}>
+        <Dashboard />
+      </div>
+    );
+  }
+
+  return (
+    <div style={styles.appContainer}>
+      {/* Global CSS Reset */}
+      <style>{`
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+        * { box-sizing: border-box; }
+        .fade-in { animation: fadeIn 1s ease-in forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      `}</style>
+
+      {/* This wrapper is what we animate. 
+        When we scale this, the Terminal and everything inside scales with it.
+      */}
+      <div ref={wrapperRef} style={styles.zoomWrapper}>
+        <Terminal>
+          {view === 'boot' ? (
+            <BootSequence onComplete={() => setView('intro')} />
+          ) : (
+            <div className="fade-in" style={{ textAlign: 'center' }}>
+              <h1 style={{ marginTop: 0 }}>ACCESS GRANTED</h1>
+              <p>COMMAND: Waiting for manual override...</p>
+              
+              <div style={{ margin: '40px auto' }}>
+                <EnterButton onClick={handleEnterSystem} />
+              </div>
+
+              <p style={{ fontSize: '12px', opacity: 0.5 }}>SECURE CONNECTION ESTABLISHED</p>
+            </div>
+          )}
+        </Terminal>
+      </div>
+    </div>
+  );
+}
+
+const styles = {
+  appContainer: {
+    backgroundColor: 'black',
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden' // Important so the zoom doesn't create scrollbars
+  },
+  zoomWrapper: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
+};
+
+export default App;
