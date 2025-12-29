@@ -4,7 +4,7 @@ import Terminal from './components/Terminal';
 import BootSequence from './components/BootSequence';
 import EnterButton from './components/EnterButton';
 import Dashboard from './components/Dashboard';
-import spaceBg from './assets/bg3.gif';
+import spaceBg from './assets/bg6.gif';
 
 function App() {
   const [view, setView] = useState('boot'); 
@@ -113,6 +113,15 @@ const styles = {
     position: 'absolute',
     top: 0,
     left: 0,
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Dark overlay for contrast
+    zIndex: 1,
   },
 
 };
