@@ -4,6 +4,7 @@ import Terminal from './components/Terminal';
 import BootSequence from './components/BootSequence';
 import EnterButton from './components/EnterButton';
 import Dashboard from './components/Dashboard';
+import spaceBg from './assets/bg3.gif';
 
 function App() {
   const [view, setView] = useState('boot'); 
@@ -27,6 +28,16 @@ function App() {
   if (view === 'dashboard') {
     return (
       <div style={styles.appContainer}>
+        {/* Animated space background */}
+        <div style={styles.backgroundWrapper}>
+          <img 
+            src={spaceBg} 
+            alt="" 
+            style={styles.backgroundImage}
+          />
+          {/* Overlay to darken background slightly for better text contrast */}
+          <div style={styles.overlay} />
+        </div>
         <Dashboard />
       </div>
     );
@@ -34,6 +45,17 @@ function App() {
 
   return (
     <div style={styles.appContainer}>
+      {/* Animated space background */}
+      <div style={styles.backgroundWrapper}>
+        <img 
+          src={spaceBg} 
+          alt="" 
+          style={styles.backgroundImage}
+        />
+        {/* Overlay to darken background slightly for better text contrast */}
+        <div style={styles.overlay} />
+      </div>
+
       <style>{`
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
         * { box-sizing: border-box; }
@@ -66,13 +88,33 @@ function App() {
 
 const styles = {
   appContainer: {
-    backgroundColor: 'black',
+    position: 'relative',
     width: '100vw',
     height: '100vh',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-  }
+    overflow: 'hidden',
+  },
+  backgroundWrapper: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    zIndex: 0,
+    overflow: 'hidden',
+  },
+  backgroundImage: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover', // Ensures image covers full area without distortion
+    objectPosition: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
+
 };
 
 export default App;

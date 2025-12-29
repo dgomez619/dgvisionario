@@ -61,9 +61,9 @@ const Dashboard = () => {
             <div style={styles.innerCard}>
               <h3>MISSION LOG (PROJECTS)</h3>
               <ul>
-                <li>> Project Alpha [DEPLOYED]</li>
-                <li>> Project Beta  [ARCHIVED]</li>
-                <li>> Side Quest X  [WIP]</li>
+                <li>Project Alpha [DEPLOYED]</li>
+                <li> Project Beta  [ARCHIVED]</li>
+                <li> Side Quest X  [WIP]</li>
               </ul>
             </div>
           </HologramCard>
