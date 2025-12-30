@@ -1,9 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { animate, stagger } from 'animejs';
 import HologramCard from './HologramCard'; // We reuse your tilt effect!
+import ProjectRing from './ProjectRing';
 
 const Dashboard = () => {
   const gridRef = useRef(null);
+  const dockRef = useRef(null);
+  const [isDockOpen, setIsDockOpen] = useState(false);
 
   useEffect(() => {
     // THE EXPLOSION ANIMATION
@@ -17,25 +20,35 @@ const Dashboard = () => {
         // "from" value varies based on grid position to mimic explosion center
         // We handle this with a function index
         (el, i) => {
-           // Simple math to make left items fly from right, right items fly from left
-           const isLeft = i === 0 || i === 2; 
-           return isLeft ? '50%' : '-50%';
+          // Simple math to make left items fly from right, right items fly from left
+          const isLeft = i === 0 || i === 2;
+          return isLeft ? '50%' : '-50%';
         },
         0 // "to" value (final grid position)
       ],
       translateY: [
         (el, i) => {
-           const isTop = i === 0 || i === 1;
-           return isTop ? '50%' : '-50%';
+          const isTop = i === 0 || i === 1;
+          return isTop ? '50%' : '-50%';
         },
         0
       ],
       scale: [0.1, 1], // Grow from tiny boxes
       opacity: [0, 1],
-      
+
       // Animation Physics
       duration: 1200,
       delay: stagger(100), // Slight delay between each box flying out
+      ease: 'outExpo'
+    });
+
+    // THE DOCK ANIMATION - Fade in after grid animation
+    const dockItems = dockRef.current.querySelectorAll('.dock-item');
+    animate(dockItems, {
+      opacity: [0, 1],
+      translateY: [20, 0],
+      duration: 800,
+      delay: stagger(80, { start: 1200 }), // Start after grid explosion
       ease: 'outExpo'
     });
   }, []);
@@ -43,9 +56,9 @@ const Dashboard = () => {
   return (
     <div style={styles.container}>
       <div ref={gridRef} style={styles.grid}>
-        
+
         {/* MODULE A: PROFILE (Top Left) */}
-        <div className="grid-item" style={styles.card}>
+        <div className="grid-item" style={{ ...styles.card, gridColumn: '1', gridRow: '1' }}>
           <HologramCard>
             <div style={styles.innerCard}>
               <h3>NAVIGATOR</h3>
@@ -56,22 +69,17 @@ const Dashboard = () => {
         </div>
 
         {/* MODULE B: PROJECTS (Top Right - Wide) */}
-        <div className="grid-item" style={{ ...styles.card, gridColumn: 'span 2' }}>
-           <HologramCard>
-            <div style={styles.innerCard}>
-              <h3>MISSION LOG (PROJECTS)</h3>
-              <ul>
-                <li>Project Alpha [DEPLOYED]</li>
-                <li> Project Beta  [ARCHIVED]</li>
-                <li> Side Quest X  [WIP]</li>
-              </ul>
-            </div>
-          </HologramCard>
+        <div className="grid-item" style={{ ...styles.card, gridColumn: '2', gridRow: '1' }}>
+          {/* No HologramCard wrapper here, the ring handles its own 3D logic */}
+          <div style={styles.innerCard}> {/* You might want to remove padding here to give the ring space */}
+            <h3 style={{ position: 'absolute', top: 10, left: 10, zIndex: 10 }}>MISSION LOG</h3>
+            <ProjectRing />
+          </div>
         </div>
 
         {/* MODULE C: SKILLS (Bottom Left) */}
-        <div className="grid-item" style={styles.card}>
-           <HologramCard>
+        <div className="grid-item" style={{ ...styles.card, gridColumn: '1', gridRow: '2' }}>
+          <HologramCard>
             <div style={styles.innerCard}>
               <h3>SYSTEM SPECS</h3>
               <p>React / Node / WebGL</p>
@@ -80,8 +88,8 @@ const Dashboard = () => {
         </div>
 
         {/* MODULE D: CONTACT (Bottom Right) */}
-        <div className="grid-item" style={styles.card}>
-           <HologramCard>
+        <div className="grid-item" style={{ ...styles.card, gridColumn: '2', gridRow: '2' }}>
+          <HologramCard>
             <div style={styles.innerCard}>
               <h3>UPLINK</h3>
               <button style={styles.btn}>SEND TRANSMISSION</button>
@@ -89,6 +97,36 @@ const Dashboard = () => {
           </HologramCard>
         </div>
 
+      </div>
+
+      {/* MOBILE DOCK TOGGLE BUTTON */}
+      <button 
+        onClick={() => setIsDockOpen(!isDockOpen)}
+        style={{
+          ...styles.dockToggle,
+          left: isDockOpen ? '20px' : '50%',
+          transform: isDockOpen ? 'translateX(0)' : 'translateX(-50%)',
+        }}
+        className="dashboard-dock-toggle"
+        aria-label="Toggle navigation menu"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d={isDockOpen ? "M8 12h8" : "M12 8v8M8 12h8"}/>
+        </svg>
+      </button>
+
+      {/* THE DOCK */}
+      <div 
+        ref={dockRef} 
+        style={styles.dock}
+        className={`dashboard-dock ${isDockOpen ? 'open' : ''}`}
+      >
+        {['PROFILE', 'PROJECTS', 'SKILLS', 'COMMS'].map((item) => (
+          <div key={item} className="dock-item" style={styles.dockItem}>
+            {item}
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -102,11 +140,12 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     padding: '20px',
+    paddingBottom: '100px', // Make room for the dock
   },
   grid: {
     display: 'grid',
-    gridTemplateColumns: '1fr 2fr 1fr', // 3 Columns
-    gridTemplateRows: '1fr 1fr',        // 2 Rows
+    gridTemplateColumns: '1fr 2fr', // 2 Columns: narrow left, wide right
+    gridTemplateRows: '1fr 1fr',    // 2 Rows
     gap: '20px',
     width: '100%',
     maxWidth: '1200px',
@@ -117,12 +156,13 @@ const styles = {
     height: '100%',
     width: '100%',
     opacity: 0, // Start hidden so they don't flash before animation
+    position: 'relative',
+    zIndex: 1,
   },
   innerCard: {
     border: '1px solid #00ff41',
     backgroundColor: 'rgba(13, 17, 23, 0.8)',
     height: '100%',
-    padding: '20px',
     color: '#00ff41',
     fontFamily: 'monospace',
     display: 'flex',
@@ -146,7 +186,85 @@ const styles = {
     fontFamily: 'monospace',
     fontWeight: 'bold',
     cursor: 'pointer'
+  },
+  dock: {
+    position: 'fixed',
+    bottom: '20px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    display: 'flex',
+    gap: '10px',
+    background: 'rgba(255, 255, 255, 0.1)', // Glass effect
+    padding: '10px 20px',
+    borderRadius: '20px',
+    backdropFilter: 'blur(10px)',
+    border: '1px solid rgba(255, 255, 255, 0.2)',
+    zIndex: 100, // Ensure it's above other elements
+    // Responsive adjustments
+    flexWrap: 'nowrap',
+    justifyContent: 'center',
+    maxWidth: '90vw',
+    transition: 'transform 0.3s ease',
+  },
+  dockToggle: {
+    position: 'fixed',
+    bottom: '20px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    background: 'rgba(0, 255, 65, 0.2)',
+    border: '2px solid #00ff41',
+    borderRadius: '50%',
+    width: '40px',
+    height: '40px',
+    display: 'none', // Hidden by default (desktop)
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    zIndex: 101,
+    backdropFilter: 'blur(10px)',
+    padding: 0,
+    transition: 'all 0.3s ease',
+  },
+  dockItem: {
+    color: '#00ff41',
+    fontFamily: 'monospace',
+    cursor: 'pointer',
+    padding: '8px 12px',
+    opacity: 0, // Start hidden for animation
+    transition: 'all 0.3s ease',
+    borderRadius: '10px',
+    whiteSpace: 'nowrap',
+    fontSize: '12px',
   }
 };
+
+// Add media query styles via CSS
+const styleSheet = document.createElement('style');
+styleSheet.textContent = `
+  @media (max-width: 768px) {
+    /* Hide dock by default on mobile, show toggle button */
+    .dashboard-dock-toggle {
+      display: flex !important;
+    }
+    /* Dock slides up from bottom on mobile */
+    .dashboard-dock {
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      transform: translateX(0) translateY(100%) !important;
+      border-radius: 20px 20px 0 0 !important;
+      max-width: 100vw !important;
+      width: 100% !important;
+      padding: 20px 15px !important;
+    }
+    .dashboard-dock.open {
+      transform: translateX(0) translateY(0) !important;
+    }
+  }
+`;
+if (!document.head.querySelector('[data-dashboard-styles]')) {
+  styleSheet.setAttribute('data-dashboard-styles', 'true');
+  document.head.appendChild(styleSheet);
+}
 
 export default Dashboard;

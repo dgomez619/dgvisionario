@@ -4,7 +4,7 @@ import Terminal from './components/Terminal';
 import BootSequence from './components/BootSequence';
 import EnterButton from './components/EnterButton';
 import Dashboard from './components/Dashboard';
-import spaceBg from './assets/bg6.gif';
+import StarshipBackground from './components/StarshipBackground';
 
 function App() {
   const [view, setView] = useState('boot'); 
@@ -29,15 +29,7 @@ function App() {
     return (
       <div style={styles.appContainer}>
         {/* Animated space background */}
-        <div style={styles.backgroundWrapper}>
-          <img 
-            src={spaceBg} 
-            alt="" 
-            style={styles.backgroundImage}
-          />
-          {/* Overlay to darken background slightly for better text contrast */}
-          <div style={styles.overlay} />
-        </div>
+        <StarshipBackground />
         <Dashboard />
       </div>
     );
@@ -46,15 +38,7 @@ function App() {
   return (
     <div style={styles.appContainer}>
       {/* Animated space background */}
-      <div style={styles.backgroundWrapper}>
-        <img 
-          src={spaceBg} 
-          alt="" 
-          style={styles.backgroundImage}
-        />
-        {/* Overlay to darken background slightly for better text contrast */}
-        <div style={styles.overlay} />
-      </div>
+      <StarshipBackground />
 
       <style>{`
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
@@ -114,15 +98,7 @@ const styles = {
     top: 0,
     left: 0,
   },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Dark overlay for contrast
-    zIndex: 1,
-  },
+
 
 };
 
