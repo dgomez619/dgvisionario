@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { animate, stagger } from 'animejs';
 import HologramCard from './HologramCard'; // We reuse your tilt effect!
 import ProjectRing from './ProjectRing';
+import BioScan from './BioScan';
+import SkillCube from './SkillCube';
 
 const Dashboard = () => {
   const gridRef = useRef(null);
@@ -60,10 +62,15 @@ const Dashboard = () => {
         {/* MODULE A: PROFILE (Top Left) */}
         <div className="grid-item" style={{ ...styles.card, gridColumn: '1', gridRow: '1' }}>
           <HologramCard>
+            {/* We remove padding: '20px' from innerCard via inline style override
+        so the scan effect can breathe, or keep it if you like the border. 
+        Here I'll keep the border but organize the content with BioScan.
+    */}
             <div style={styles.innerCard}>
-              <h3>NAVIGATOR</h3>
-              <div style={styles.placeholderImg}>[IMG]</div>
-              <p>Status: Online</p>
+              <h3 style={{ borderBottom: '1px solid #00ff41', paddingBottom: '5px', marginBottom: '10px' }}>
+                IDENTITY
+              </h3>
+              <BioScan />
             </div>
           </HologramCard>
         </div>
@@ -77,15 +84,27 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* MODULE C: SKILLS (Bottom Left) */}
-        <div className="grid-item" style={{ ...styles.card, gridColumn: '1', gridRow: '2' }}>
-          <HologramCard>
-            <div style={styles.innerCard}>
-              <h3>SYSTEM SPECS</h3>
-              <p>React / Node / WebGL</p>
-            </div>
-          </HologramCard>
-        </div>
+      {/* MODULE C: SKILLS (Bottom Left) */}
+<div className="grid-item" style={{ ...styles.card, gridColumn: '1', gridRow: '2' }}>
+  <HologramCard>
+    {/* We use a slightly different internal style to center the cube */}
+    <div style={{...styles.innerCard, padding: 0, justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
+      {/* A small label in the corner so users know what this is */}
+      <h3 style={{
+        position: 'absolute', 
+        top: '10px', 
+        left: '10px', 
+        zIndex: 10, 
+        fontSize: '12px',
+        margin: 0
+      }}>
+        SYSTEM SPECS
+      </h3>
+
+      <SkillCube />
+    </div>
+  </HologramCard>
+</div>
 
         {/* MODULE D: CONTACT (Bottom Right) */}
         <div className="grid-item" style={{ ...styles.card, gridColumn: '2', gridRow: '2' }}>
@@ -100,7 +119,7 @@ const Dashboard = () => {
       </div>
 
       {/* MOBILE DOCK TOGGLE BUTTON */}
-      <button 
+      <button
         onClick={() => setIsDockOpen(!isDockOpen)}
         style={{
           ...styles.dockToggle,
@@ -111,14 +130,14 @@ const Dashboard = () => {
         aria-label="Toggle navigation menu"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2">
-          <circle cx="12" cy="12" r="10"/>
-          <path d={isDockOpen ? "M8 12h8" : "M12 8v8M8 12h8"}/>
+          <circle cx="12" cy="12" r="10" />
+          <path d={isDockOpen ? "M8 12h8" : "M12 8v8M8 12h8"} />
         </svg>
       </button>
 
       {/* THE DOCK */}
-      <div 
-        ref={dockRef} 
+      <div
+        ref={dockRef}
         style={styles.dock}
         className={`dashboard-dock ${isDockOpen ? 'open' : ''}`}
       >
