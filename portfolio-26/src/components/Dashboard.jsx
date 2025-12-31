@@ -4,6 +4,9 @@ import HologramCard from './HologramCard'; // We reuse your tilt effect!
 import ProjectRing from './ProjectRing';
 import BioScan from './BioScan';
 import SkillCube from './SkillCube';
+// import SecureUplink from './SecureUplink';
+import CommsArray from './CommsArray';
+import ContactModule from './ContactModule';
 
 const Dashboard = () => {
   const gridRef = useRef(null);
@@ -88,7 +91,7 @@ const Dashboard = () => {
 <div className="grid-item" style={{ ...styles.card, gridColumn: '1', gridRow: '2' }}>
   <HologramCard>
     {/* We use a slightly different internal style to center the cube */}
-    <div style={{...styles.innerCard, padding: 0, justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
+    <div style={{...styles.innerCard, justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       {/* A small label in the corner so users know what this is */}
       <h3 style={{
         position: 'absolute', 
@@ -106,15 +109,11 @@ const Dashboard = () => {
   </HologramCard>
 </div>
 
-        {/* MODULE D: CONTACT (Bottom Right) */}
-        <div className="grid-item" style={{ ...styles.card, gridColumn: '2', gridRow: '2' }}>
-          <HologramCard>
-            <div style={styles.innerCard}>
-              <h3>UPLINK</h3>
-              <button style={styles.btn}>SEND TRANSMISSION</button>
-            </div>
-          </HologramCard>
-        </div>
+ {/* MODULE D: CONTACT */}
+<div className="grid-item" style={{ ...styles.card, gridColumn: '2', gridRow: '2' }}>
+  {/* No HologramCard wrapper - ContactModule handles its own card with flip logic */}
+    <ContactModule />
+</div>
 
       </div>
 
@@ -154,12 +153,13 @@ const Dashboard = () => {
 const styles = {
   container: {
     width: '100vw',
-    height: '100vh',
+    minHeight: '100vh',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     padding: '20px',
-    paddingBottom: '100px', // Make room for the dock
+    paddingBottom: '140px', // Extra room for the dock and toggle
+    overflowY: 'auto',
   },
   grid: {
     display: 'grid',
@@ -218,7 +218,7 @@ const styles = {
     borderRadius: '20px',
     backdropFilter: 'blur(10px)',
     border: '1px solid rgba(255, 255, 255, 0.2)',
-    zIndex: 100, // Ensure it's above other elements
+    zIndex: 1000, // Very high to stay on top
     // Responsive adjustments
     flexWrap: 'nowrap',
     justifyContent: 'center',
@@ -239,7 +239,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     cursor: 'pointer',
-    zIndex: 101,
+    zIndex: 9999,
     backdropFilter: 'blur(10px)',
     padding: 0,
     transition: 'all 0.3s ease',
@@ -275,9 +275,32 @@ styleSheet.textContent = `
       max-width: 100vw !important;
       width: 100% !important;
       padding: 20px 15px !important;
+      z-index: 1000 !important;
     }
     .dashboard-dock.open {
       transform: translateX(0) translateY(0) !important;
+    }
+  }
+
+  /* Mobile Grid Layout - Stack cards vertically */
+  @media (max-width: 768px) {
+    [style*="gridTemplateColumns"] {
+      grid-template-columns: 1fr !important;
+      grid-template-rows: auto !important;
+      height: auto !important;
+      gap: 20px !important;
+      padding: 10px !important;
+      padding-bottom: 100px !important;
+      justify-items: center !important;
+      align-items: center !important;
+    }
+    .grid-item {
+      grid-column: 1 !important;
+      grid-row: auto !important;
+      width: 95vw !important;
+      max-width: 600px !important;
+      min-height: 400px !important;
+      height: auto !important;
     }
   }
 `;
