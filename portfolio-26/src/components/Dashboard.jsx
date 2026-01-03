@@ -4,6 +4,7 @@ import HologramCard from './HologramCard'; // We reuse your tilt effect!
 import ProjectRing from './ProjectRing';
 import BioScan from './BioScan';
 import SkillCube from './SkillCube';
+import SkillsFlipCard from './SkillsFlipCard';
 // import SecureUplink from './SecureUplink';
 import CommsArray from './CommsArray';
 import ContactModule from './ContactModule';
@@ -88,25 +89,8 @@ const Dashboard = () => {
         </div>
 
       {/* MODULE C: SKILLS (Bottom Left) */}
-<div className="grid-item" style={{ ...styles.card, gridColumn: '1', gridRow: '2' }}>
-  <HologramCard>
-    {/* We use a slightly different internal style to center the cube */}
-    <div style={{...styles.innerCard, justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-      {/* A small label in the corner so users know what this is */}
-      <h3 style={{
-        position: 'absolute', 
-        top: '10px', 
-        left: '10px', 
-        zIndex: 10, 
-        fontSize: '12px',
-        margin: 0
-      }}>
-        SYSTEM SPECS
-      </h3>
-
-      <SkillCube />
-    </div>
-  </HologramCard>
+<div className="grid-item" style={{ ...styles.card, gridColumn: '1', gridRow: '2', cursor: 'pointer' }}>
+  <SkillsFlipCard />
 </div>
 
  {/* MODULE D: CONTACT */}
@@ -261,6 +245,11 @@ const styles = {
 const styleSheet = document.createElement('style');
 styleSheet.textContent = `
   @media (max-width: 768px) {
+   /* Container padding on mobile */
+    [style*="padding: 20px"] {
+      padding: 10px !important;
+      padding-bottom: 140px !important;
+    }
     /* Hide dock by default on mobile, show toggle button */
     .dashboard-dock-toggle {
       display: flex !important;

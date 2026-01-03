@@ -1,11 +1,12 @@
 import React, { useRef, useState } from 'react';
 
+
 const HologramCard = ({ 
   children, 
   disabled = false,
   glareEnable = false,
   glareMaxOpacity = 0.15,
-  glareColor = '#ffffff'
+  glareColor = '#ffffff',
 }) => {
   const cardRef = useRef(null);
   const [rotation, setRotation] = useState({ x: 0, y: 0 });

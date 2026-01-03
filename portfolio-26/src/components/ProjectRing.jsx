@@ -13,7 +13,7 @@ const ProjectRing = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   
   // 3D MATH CONFIG
-  const radius = 180; // How far items push out (the size of the ring)
+  const radius = 200; // How far items push out (the size of the ring)
   const anglePerItem = 360 / projects.length;
 
   const rotateCarousel = (direction) => {
