@@ -42,8 +42,8 @@ const SkillCube = () => {
 
         /* --- CUBE SIZE SETTINGS --- */
         .box-card {
-          width: 180px;  /* INCREASED SIZE */
-          height: 180px; /* INCREASED SIZE */
+          width: 220px;  /* INCREASED SIZE */
+          height: 220px; /* INCREASED SIZE */
           position: relative;
           transform-style: preserve-3d;
           transition: transform 1s ease;
@@ -74,25 +74,25 @@ const SkillCube = () => {
           transition: all 0.3s ease;
         }
 
-        /* --- THE MATH (Must be half of width: 90px) --- */
+        /* --- THE MATH (Must be half of width: 110px) --- */
         
         /* React Blue */
-        .front  { transform: translateZ(90px); border-color: #61DAFB; color: #61DAFB; } 
+        .front  { transform: translateZ(110px); border-color: #61DAFB; color: #61DAFB; } 
         
         /* Tailwind Teal */
-        .back   { transform: translateZ(-90px) rotateY(180deg); border-color: #38B2AC; color: #38B2AC; } 
+        .back   { transform: translateZ(-110px) rotateY(180deg); border-color: #38B2AC; color: #38B2AC; } 
         
         /* Firebase Yellow */
-        .right  { transform: translateX(90px) rotateY(90deg); border-color: #FFCA28; color: #FFCA28; } 
+        .right  { transform: translateX(110px) rotateY(90deg); border-color: #FFCA28; color: #FFCA28; } 
         
         /* Node Green */
-        .left   { transform: translateX(-90px) rotateY(-90deg); border-color: #68A063; color: #68A063; } 
+        .left   { transform: translateX(-110px) rotateY(-90deg); border-color: #68A063; color: #68A063; } 
         
         /* Mongo Green */
-        .top    { transform: translateY(-90px) rotateX(90deg); border-color: #4DB33D; color: #4DB33D; } 
+        .top    { transform: translateY(-110px) rotateX(90deg); border-color: #4DB33D; color: #4DB33D; } 
         
         /* Anime Red */
-        .bottom { transform: translateY(90px) rotateX(-90deg); border-color: #FF4B4B; color: #FF4B4B; } 
+        .bottom { transform: translateY(110px) rotateX(-90deg); border-color: #FF4B4B; color: #FF4B4B; } 
 
         @keyframes rotate3d {
           0%   { transform: rotateX(0) rotateY(0); }
@@ -100,18 +100,29 @@ const SkillCube = () => {
         }
 
         /* --- RESPONSIVE ADJUSTMENT --- */
-        /* On mobile, shrink it back down so it doesn't clip */
+        /* On mobile, make it larger and ensure proper centering */
         @media (max-width: 768px) {
-          .box-card { width: 140px; height: 140px; }
-          .face { font-size: 1rem; }
+          .cube-wrapper {
+            min-height: 400px;
+            padding: 20px;
+          }
           
-          /* Update Math for 140px (Half is 70px) */
-          .front  { transform: translateZ(70px); }
-          .back   { transform: translateZ(-70px) rotateY(180deg); }
-          .right  { transform: translateX(70px) rotateY(90deg); }
-          .left   { transform: translateX(-70px) rotateY(-90deg); }
-          .top    { transform: translateY(-70px) rotateX(90deg); }
-          .bottom { transform: translateY(70px) rotateX(-90deg); }
+          .box-card { 
+            width: 200px; 
+            height: 200px; 
+          }
+          
+          .face { 
+            font-size: 1.2rem; 
+          }
+          
+          /* Update Math for 200px (Half is 100px) */
+          .front  { transform: translateZ(100px); }
+          .back   { transform: translateZ(-100px) rotateY(180deg); }
+          .right  { transform: translateX(100px) rotateY(90deg); }
+          .left   { transform: translateX(-100px) rotateY(-90deg); }
+          .top    { transform: translateY(-100px) rotateX(90deg); }
+          .bottom { transform: translateY(100px) rotateX(-90deg); }
         }
       `}</style>
     </div>

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import HologramCard from './HologramCard';
+import emailjs from '@emailjs/browser';
 
 // --- 1. TargetBox with "Closing In" Animation ---
 const TargetBox = ({ data, onClick }) => {
@@ -93,9 +94,25 @@ const TargetBox = ({ data, onClick }) => {
 // --- 2. Main Module ---
 const ContactModule = () => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const form = useRef();
+  const [submissionMessage, setSubmissionMessage] = useState(null);
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs.sendForm('service_ooprlrs', 'template_pd8sn4f', form.current, 'Sfscmxos6YxpsQrKo')
+      .then((result) => {
+        console.log(result.text);
+        setSubmissionMessage('Message sent successfully.');
+      }, (error) => {
+        console.log(error.text);
+        setSubmissionMessage('An error occurred, please try again.');
+      });
+    e.target.reset();
+  };
 
   const targets = [
-    { id: 1, label: 'GITHUB', sub: 'REPO_ACCESS', url: 'https://github.com' },
+    { id: 1, label: 'GITHUB', sub: 'REPO_ACCESS', url: 'https://github.com/dgomez619' },
     { id: 2, label: 'LINKEDIN', sub: 'NET_UPLINK', url: 'https://linkedin.com' },
     { id: 3, label: 'EMAIL', sub: 'SECURE_MSG', url: '#' } 
   ];
@@ -126,15 +143,29 @@ const ContactModule = () => {
             <div style={styles.formHeader}>
               <h3 style={styles.header}>SECURE MESSAGE</h3>
               <button onClick={() => setIsFlipped(false)} style={styles.closeBtn}>
-                [CLOSE_UPLINK]
+                [X]
               </button>
             </div>
 
-            <form style={styles.form}>
-              <input type="text" placeholder="AGENT_ID (Name)" style={styles.input} />
-              <input type="email" placeholder="RETURN_ADDRESS (Email)" style={styles.input} />
-              <textarea placeholder="TRANSMISSION DATA..." style={styles.textarea}></textarea>
-              <button type="button" style={styles.submitBtn}>INITIATE_UPLOAD</button>
+            <form ref={form} onSubmit={sendEmail} style={styles.form}>
+              <input type="text" name="user_name" placeholder="AGENT_ID (Name)" style={styles.input} required />
+              <input type="email" name="user_email" placeholder="RETURN_ADDRESS (Email)" style={styles.input} required />
+              <textarea name="message" placeholder="TRANSMISSION DATA..." style={styles.textarea} required></textarea>
+              <button type="submit" style={styles.submitBtn}>INITIATE_UPLOAD</button>
+              {submissionMessage && (
+                <div style={{
+                  color: submissionMessage.includes('success') ? '#00ff41' : '#ff4141',
+                  fontFamily: 'monospace',
+                  fontSize: '12px',
+                  textAlign: 'center',
+                  marginTop: '10px',
+                  padding: '5px',
+                  border: `1px solid ${submissionMessage.includes('success') ? '#00ff41' : '#ff4141'}`,
+                  borderRadius: '3px',
+                }}>
+                  {submissionMessage}
+                </div>
+              )}
             </form>
           </div>
         </div>

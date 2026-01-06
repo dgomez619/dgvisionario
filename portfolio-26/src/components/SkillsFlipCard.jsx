@@ -41,7 +41,7 @@ const SkillsFlipCard = () => {
   const innerCardStyle = {
     width: '100%',
     height: '100%',
-    padding: '20px',
+    padding: '10px',
     background: 'rgba(0, 0, 0, 0.5)',
     border: '1px solid #00ff41',
     backdropFilter: 'blur(10px)',
@@ -125,6 +125,8 @@ const SkillsFlipCard = () => {
               lineHeight: '1.6',
               overflowY: 'auto',
               width: '100%',
+              flex: 1,
+              paddingRight: '8px',
             }}>
               <p style={{ margin: 0 }}>
                 I specialize in building modern web applications using <strong style={{ color: '#00ff41' }}>React</strong> and <strong style={{ color: '#00ff41' }}>Next.js</strong> for 

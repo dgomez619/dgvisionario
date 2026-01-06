@@ -81,7 +81,6 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    overflow: 'hidden',
   },
   backgroundWrapper: {
     position: 'absolute',

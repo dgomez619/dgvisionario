@@ -1,16 +1,17 @@
 import React, { useEffect, useRef } from 'react';
 import { animate } from 'animejs';
+import bioscan1 from '../assets/bioscan1.png';
 
 const BioScan = () => {
   const lineRef = useRef(null);
   
   useEffect(() => {
-    // FIX: Use V4 Syntax -> animate(target, parameters)
+    // Laser scanning animation
     animate(lineRef.current, {
       top: ['0%', '100%'],
-      opacity: [0, 1, 0],   // Fade in/out at edges
+      opacity: [0, 1, 0],   
       duration: 2000,
-      ease: 'inOutSine',    // V4 uses 'ease', not 'easing'
+      ease: 'inOutSine',    
       loop: true,
       direction: 'alternate'
     });
@@ -18,10 +19,10 @@ const BioScan = () => {
 
   return (
     <div style={styles.container}>
-      {/* 1. The Image Frame */}
+      {/* 1. The Image Frame - Now Larger & Centered */}
       <div style={styles.frame}>
         <img 
-          src="https://robohash.org/matrix-avatar.png?set=set1&bgset=bg1" 
+          src={bioscan1} 
           alt="User Scan" 
           style={styles.image} 
         />
@@ -33,8 +34,11 @@ const BioScan = () => {
         <div style={styles.gridOverlay}></div>
         
         {/* The Moving Laser Line */}
-        {/* We use a ref here now instead of just className */}
-        <div ref={lineRef} className="scan-line" style={styles.scanLine}></div>
+        <div ref={lineRef} style={styles.scanLine}></div>
+        
+        {/* Corner Accents for "Tech" feel */}
+        <div style={styles.cornerTL}></div>
+        <div style={styles.cornerBR}></div>
       </div>
 
       {/* 2. The Data Readout */}
@@ -44,12 +48,16 @@ const BioScan = () => {
           <span style={styles.value}>NAV_01</span>
         </div>
         <div style={styles.row}>
+          <span style={styles.label}>SPECIES:</span>
+          <span style={styles.value}>HUMAN_AUG</span>
+        </div>
+        <div style={styles.row}>
           <span style={styles.label}>CLASS:</span>
-          <span style={styles.value}>DEV_ARCHITECT</span>
+          <span style={styles.value}>ARCHITECT</span>
         </div>
         <div style={styles.row}>
           <span style={styles.label}>STATUS:</span>
-          <span style={styles.active}>ONLINE</span>
+          <span style={styles.active}>DETECTED</span>
         </div>
       </div>
     </div>
@@ -61,24 +69,30 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    gap: '15px',
+    justifyContent: 'center', // Centers the whole component in its parent
+    gap: '25px',              // Increased gap for breathing room
     height: '100%',
     width: '100%',
+    padding: '20px',
   },
   frame: {
     position: 'relative',
-    width: '80px',
-    height: '80px',
-    border: '1px solid #00ff41',
+    width: '180px',  // Increased from 120px
+    height: '180px', // Square aspect ratio
+    border: '2px solid #00ff41',
+    borderRadius: '8px', // Slight curve for modern tech look
     overflow: 'hidden',
-    backgroundColor: '#000',
+    backgroundColor: '#001100', // Very dark green background
+    boxShadow: '0 0 25px rgba(0, 255, 65, 0.2), inset 0 0 10px rgba(0,255,65,0.1)',
   },
   image: {
     width: '100%',
     height: '100%',
     objectFit: 'cover',
-    // CSS Magic to make any photo look like a green CRT monitor
-    filter: 'grayscale(100%) sepia(100%) hue-rotate(70deg) saturate(400%) contrast(1.5)',
+    objectPosition: 'top center', // Ensures face is not cut off
+    // Updated Filter for "Matrix" look: darker blacks, higher contrast
+    filter: 'grayscale(100%) brightness(0.9) contrast(1.2) sepia(100%) hue-rotate(70deg) saturate(300%)',
+    mixBlendMode: 'luminosity',
   },
   greenOverlay: {
     position: 'absolute',
@@ -86,9 +100,10 @@ const styles = {
     left: 0,
     width: '100%',
     height: '100%',
-    background: 'rgba(0, 255, 65, 0.2)', // Tint
+    background: 'radial-gradient(circle, rgba(0,255,65,0) 40%, rgba(0,255,65,0.4) 100%)', // Vignette effect
     mixBlendMode: 'overlay',
     pointerEvents: 'none',
+    zIndex: 2,
   },
   gridOverlay: {
     position: 'absolute',
@@ -96,49 +111,78 @@ const styles = {
     left: 0,
     width: '100%',
     height: '100%',
-    // Simple CSS grid pattern
-    backgroundImage: `linear-gradient(#00ff41 1px, transparent 1px),
-                      linear-gradient(90deg, #00ff41 1px, transparent 1px)`,
-    backgroundSize: '10px 10px',
-    backgroundPosition: '-1px -1px',
-    opacity: 0.3,
+    // Finer grid for "high resolution" scan look
+    backgroundImage: `
+      linear-gradient(rgba(0, 255, 65, 0.2) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 65, 0.2) 1px, transparent 1px)
+    `,
+    backgroundSize: '15px 15px',
+    zIndex: 3,
     pointerEvents: 'none',
   },
   scanLine: {
     position: 'absolute',
-    top: 0,
     left: 0,
     width: '100%',
     height: '2px',
-    background: '#00ff41',
-    boxShadow: '0 0 10px #00ff41', // Glowing effect
+    background: '#ffffff', // White core for hot laser look
+    boxShadow: '0 0 8px #00ff41, 0 0 15px #00ff41', // Green glow
     zIndex: 10,
   },
+  // Decorative Corners
+  cornerTL: {
+    position: 'absolute',
+    top: '5px',
+    left: '5px',
+    width: '10px',
+    height: '10px',
+    borderTop: '2px solid #fff',
+    borderLeft: '2px solid #fff',
+    zIndex: 5,
+  },
+  cornerBR: {
+    position: 'absolute',
+    bottom: '5px',
+    right: '5px',
+    width: '10px',
+    height: '10px',
+    borderBottom: '2px solid #fff',
+    borderRight: '2px solid #fff',
+    zIndex: 5,
+  },
   readout: {
-    flex: 1,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    gap: '5px',
-    fontFamily: 'monospace',
-    fontSize: '12px',
+    gap: '8px',
+    fontFamily: '"Courier New", Courier, monospace', // Monospace is key for "Alien Tech"
+    fontSize: '14px',
+    color: '#00ff41',
+    textShadow: '0 0 2px rgba(0, 255, 65, 0.5)', // Subtle text glow
+    padding: '10px',
   },
   row: {
     display: 'flex',
     justifyContent: 'space-between',
-    borderBottom: '1px solid rgba(0, 255, 65, 0.3)',
-    paddingBottom: '2px',
+    minWidth: '180px', // Ensures text aligns nicely
+    borderBottom: '1px solid rgba(0, 255, 65, 0.2)',
+    paddingBottom: '4px',
   },
   label: {
-    opacity: 0.7,
+    opacity: 0.8,
+    fontSize: '12px',
+    letterSpacing: '1px',
   },
   value: {
     fontWeight: 'bold',
+    letterSpacing: '1px',
+    color: '#ccffdc', // Slightly lighter green for readability
   },
   active: {
-    color: '#00ff41',
+    color: '#fff',
     fontWeight: 'bold',
-    textShadow: '0 0 5px #00ff41',
+    textShadow: '0 0 8px #00ff41',
+    animation: 'blink 1s infinite', // Note: You'd need a keyframe for this or use anime.js
   }
 };
 

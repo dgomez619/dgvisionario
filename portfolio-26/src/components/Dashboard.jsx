@@ -60,6 +60,8 @@ const Dashboard = () => {
   }, []);
 
   return (
+    <>
+    <br />
     <div style={styles.container}>
       <div ref={gridRef} style={styles.grid}>
 
@@ -130,7 +132,8 @@ const Dashboard = () => {
           </div>
         ))}
       </div>
-    </div>
+    </div>  
+    </>
   );
 };
 
@@ -247,8 +250,7 @@ styleSheet.textContent = `
   @media (max-width: 768px) {
    /* Container padding on mobile */
     [style*="padding: 20px"] {
-      padding: 10px !important;
-      padding-bottom: 140px !important;
+      padding: 80px 10px 220px 10px !important;
     }
     /* Hide dock by default on mobile, show toggle button */
     .dashboard-dock-toggle {
@@ -278,10 +280,11 @@ styleSheet.textContent = `
       grid-template-rows: auto !important;
       height: auto !important;
       gap: 20px !important;
-      padding: 10px !important;
-      padding-bottom: 100px !important;
+      padding: 0 !important;
+      padding-bottom: 40px !important;
       justify-items: center !important;
-      align-items: center !important;
+      align-items: stretch !important;
+      margin-bottom: 20px !important;
     }
     .grid-item {
       grid-column: 1 !important;
