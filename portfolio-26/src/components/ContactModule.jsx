@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import HologramCard from './HologramCard';
 import emailjs from '@emailjs/browser';
+import { X } from 'lucide-react';
 
 // --- 1. TargetBox with "Closing In" Animation ---
 const TargetBox = ({ data, onClick }) => {
@@ -143,7 +144,7 @@ const ContactModule = () => {
             <div style={styles.formHeader}>
               <h3 style={styles.header}>SECURE MESSAGE</h3>
               <button onClick={() => setIsFlipped(false)} style={styles.closeBtn}>
-                [X]
+                <X size={24} />
               </button>
             </div>
 
@@ -284,8 +285,8 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     gap: '10px',
-    height: '100%',
-    justifyContent: 'center',
+    flex: 1,
+    width: '100%',
   },
   input: {
     background: 'rgba(0, 0, 0, 0.5)',
@@ -295,7 +296,9 @@ const styles = {
     fontFamily: 'monospace',
     outline: 'none',
     fontSize: '12px',
-    zIndex: 20, // FORCE input to be on top
+    zIndex: 20,
+    width: '100%',
+    boxSizing: 'border-box',
   },
   textarea: {
     background: 'rgba(0, 0, 0, 0.5)',
@@ -305,9 +308,12 @@ const styles = {
     fontFamily: 'monospace',
     outline: 'none',
     flex: 1,
+    minHeight: '100px',
     resize: 'none',
     fontSize: '12px',
     zIndex: 20,
+    width: '100%',
+    boxSizing: 'border-box',
   },
   submitBtn: {
     background: '#00ff41',

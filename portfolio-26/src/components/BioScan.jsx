@@ -44,20 +44,20 @@ const BioScan = () => {
       {/* 2. The Data Readout */}
       <div style={styles.readout}>
         <div style={styles.row}>
-          <span style={styles.label}>ID:</span>
-          <span style={styles.value}>NAV_01</span>
+          <span style={styles.label}>NAME:</span>
+          <span style={styles.value}>DAN G</span>
         </div>
         <div style={styles.row}>
-          <span style={styles.label}>SPECIES:</span>
-          <span style={styles.value}>HUMAN_AUG</span>
+          <span style={styles.label}>ROLE:</span>
+          <span style={styles.value}>FULL STACK DEV</span>
         </div>
         <div style={styles.row}>
-          <span style={styles.label}>CLASS:</span>
-          <span style={styles.value}>ARCHITECT</span>
+          <span style={styles.label}>FOCUS:</span>
+          <span style={styles.value}><abbr title="Progressive Web Applications">PWA's</abbr></span>
         </div>
         <div style={styles.row}>
           <span style={styles.label}>STATUS:</span>
-          <span style={styles.active}>DETECTED</span>
+          <span style={styles.active}>AVAILABLE</span>
         </div>
       </div>
     </div>

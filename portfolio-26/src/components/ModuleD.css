@@ -30,7 +30,6 @@
   backface-visibility: hidden; /* Hides the back when rotated */
   border-radius: 16px;
   padding: 24px;
-  background-color: #171717; /* Neutral-900 */
   color: white;
   display: flex;
   flex-direction: column;
