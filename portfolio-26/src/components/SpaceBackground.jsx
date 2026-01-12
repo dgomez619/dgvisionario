@@ -13,7 +13,7 @@ const MovingStars = () => {
     }
   });
   return (
-    <Stars radius={300} depth={50} count={7000} factor={20} saturation={0} fade={true} speed={1.5} ref={starsRef} />
+    <Stars radius={100} depth={50} count={7000} factor={20} saturation={0} fade={true} speed={1.5} ref={starsRef} />
   );
 };
 

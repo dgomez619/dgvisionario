@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useImperativeHandle, forwardRef } from 'react';
 import HologramCard from './HologramCard';
 import emailjs from '@emailjs/browser';
 import { X } from 'lucide-react';
@@ -93,10 +93,14 @@ const TargetBox = ({ data, onClick }) => {
 };
 
 // --- 2. Main Module ---
-const ContactModule = () => {
+const ContactModule = forwardRef((props, ref) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const form = useRef();
   const [submissionMessage, setSubmissionMessage] = useState(null);
+
+  useImperativeHandle(ref, () => ({
+    flip: () => setIsFlipped(true),
+  }));
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -174,7 +178,7 @@ const ContactModule = () => {
       </div>
     </div>
   );
-};
+});
 
 const styles = {
   perspectiveContainer: {

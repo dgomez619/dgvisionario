@@ -12,7 +12,70 @@ import ContactModule from './ContactModule';
 const Dashboard = () => {
   const gridRef = useRef(null);
   const dockRef = useRef(null);
+  const profileRef = useRef(null);
+  const projectsRef = useRef(null);
+  const skillsRef = useRef(null);
+  const skillsFlipRef = useRef(null);
+  const commsRef = useRef(null);
+  const commsFlipRef = useRef(null);
   const [isDockOpen, setIsDockOpen] = useState(false);
+  const [showDockToggle, setShowDockToggle] = useState(false);
+
+  const handleDockItemClick = (item) => {
+    let targetRef = null;
+    let shouldFlip = false;
+
+    switch (item) {
+      case 'PROFILE':
+        targetRef = profileRef;
+        break;
+      case 'PROJECTS':
+        targetRef = projectsRef;
+        break;
+      case 'SKILLS':
+        targetRef = skillsRef;
+        shouldFlip = true;
+        break;
+      case 'COMMS':
+        targetRef = commsRef;
+        shouldFlip = true;
+        break;
+      default:
+        return;
+    }
+
+    if (targetRef?.current) {
+      targetRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      
+      if (shouldFlip) {
+        setTimeout(() => {
+          if (item === 'SKILLS' && skillsFlipRef.current?.flip) {
+            skillsFlipRef.current.flip();
+          } else if (item === 'COMMS' && commsFlipRef.current?.flip) {
+            commsFlipRef.current.flip();
+          }
+        }, 800); // Wait for scroll to finish
+      }
+    }
+
+    // Close dock on mobile after selection
+    setIsDockOpen(false);
+  };
+
+  useEffect(() => {
+    // Scroll detection for dock toggle button
+    const handleScroll = () => {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPosition = window.scrollY;
+      const scrollPercentage = (scrollPosition / scrollHeight) * 100;
+      
+      setShowDockToggle(scrollPercentage > 40);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     // THE EXPLOSION ANIMATION
@@ -61,12 +124,11 @@ const Dashboard = () => {
 
   return (
     <>
-    <br />
     <div style={styles.container}>
       <div ref={gridRef} style={styles.grid}>
 
         {/* MODULE A: PROFILE (Top Left) */}
-        <div className="grid-item" style={{ ...styles.card, gridColumn: '1', gridRow: '1' }}>
+        <div ref={profileRef} className="grid-item" style={{ ...styles.card, gridColumn: '1', gridRow: '1' }}>
           <HologramCard>
             {/* We remove padding: '20px' from innerCard via inline style override
         so the scan effect can breathe, or keep it if you like the border. 
@@ -82,7 +144,7 @@ const Dashboard = () => {
         </div>
 
         {/* MODULE B: PROJECTS (Top Right - Wide) */}
-        <div className="grid-item" style={{ ...styles.card, gridColumn: '2', gridRow: '1' }}>
+        <div ref={projectsRef} className="grid-item" style={{ ...styles.card, gridColumn: '2', gridRow: '1' }}>
           {/* No HologramCard wrapper here, the ring handles its own 3D logic */}
           <div style={styles.innerCard}> {/* You might want to remove padding here to give the ring space */}
             <h3 style={{ position: 'absolute', top: 10, left: 10, zIndex: 10 }}>MISSION LOG</h3>
@@ -91,14 +153,17 @@ const Dashboard = () => {
         </div>
 
       {/* MODULE C: SKILLS (Bottom Left) */}
-<div className="grid-item" style={{ ...styles.card, gridColumn: '1', gridRow: '2', cursor: 'pointer' }}>
-  <SkillsFlipCard />
+<div ref={skillsRef} className="grid-item" style={{ ...styles.card, gridColumn: '1', gridRow: '2', cursor: 'pointer' }}>
+  <SkillsFlipCard ref={skillsFlipRef} />
 </div>
 
  {/* MODULE D: CONTACT */}
-<div className="grid-item" style={{ ...styles.card, gridColumn: '2', gridRow: '2' }}>
+<div ref={commsRef} className="grid-item" style={{ ...styles.card, gridColumn: '2', gridRow: '2' }}>
   {/* No HologramCard wrapper - ContactModule handles its own card with flip logic */}
-    <ContactModule />
+    <ContactModule ref={commsFlipRef} />
+    <br />
+    <br />
+    
 </div>
 
       </div>
@@ -110,6 +175,8 @@ const Dashboard = () => {
           ...styles.dockToggle,
           left: isDockOpen ? '20px' : '50%',
           transform: isDockOpen ? 'translateX(0)' : 'translateX(-50%)',
+          opacity: showDockToggle ? 1 : 0,
+          pointerEvents: showDockToggle ? 'auto' : 'none',
         }}
         className="dashboard-dock-toggle"
         aria-label="Toggle navigation menu"
@@ -127,7 +194,12 @@ const Dashboard = () => {
         className={`dashboard-dock ${isDockOpen ? 'open' : ''}`}
       >
         {['PROFILE', 'PROJECTS', 'SKILLS', 'COMMS'].map((item) => (
-          <div key={item} className="dock-item" style={styles.dockItem}>
+          <div 
+            key={item} 
+            className="dock-item" 
+            style={styles.dockItem}
+            onClick={() => handleDockItemClick(item)}
+          >
             {item}
           </div>
         ))}
@@ -144,7 +216,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '20px',
+    padding: '30px 10px',
     paddingBottom: '140px', // Extra room for the dock and toggle
     overflowY: 'auto',
   },
@@ -293,6 +365,14 @@ styleSheet.textContent = `
       max-width: 600px !important;
       min-height: 400px !important;
       height: auto !important;
+    }
+  }
+
+  /* Extra separation between Module D and dock on smaller mobile screens */
+  @media (max-width: 765px) {
+    [style*="gridTemplateColumns"] {
+      padding-bottom: 100px !important;
+      margin-bottom: 60px !important;
     }
   }
 `;

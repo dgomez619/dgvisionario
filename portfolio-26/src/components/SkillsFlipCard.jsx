@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useImperativeHandle, forwardRef } from 'react';
 import HologramCard from './HologramCard';
 import SkillCube from './SkillCube';
 import { X } from 'lucide-react';
 
-const SkillsFlipCard = () => {
+const SkillsFlipCard = forwardRef((props, ref) => {
   const [isFlipped, setIsFlipped] = useState(false);
+
+  useImperativeHandle(ref, () => ({
+    flip: () => setIsFlipped(true),
+  }));
 
   const flipContainerStyle = {
     width: '100%',
@@ -150,6 +154,6 @@ const SkillsFlipCard = () => {
       </div>
     </div>
   );
-};
+});
 
 export default SkillsFlipCard;
