@@ -29,8 +29,6 @@ function App() {
   if (view === 'dashboard') {
     return (
       <div style={styles.appContainer}>
-        <br />
-          <br />
         {/* Animated space background */}
           {/* <StarshipBackground /> */}
           <SpaceBackground />

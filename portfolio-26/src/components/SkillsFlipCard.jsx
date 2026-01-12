@@ -33,6 +33,7 @@ const SkillsFlipCard = forwardRef((props, ref) => {
     backfaceVisibility: 'hidden',
     WebkitBackfaceVisibility: 'hidden',
     zIndex: 2,
+    overflow: 'hidden',
   };
 
   const backStyle = {
@@ -40,6 +41,7 @@ const SkillsFlipCard = forwardRef((props, ref) => {
     transform: 'rotateY(180deg)',
     transformStyle: 'flat',
     zIndex: 1,
+    overflow: 'visible',
   };
 
   const innerCardStyle = {
@@ -128,9 +130,11 @@ const SkillsFlipCard = forwardRef((props, ref) => {
               fontSize: '0.95rem',
               lineHeight: '1.6',
               overflowY: 'auto',
+              WebkitOverflowScrolling: 'touch',
               width: '100%',
               flex: 1,
               paddingRight: '8px',
+              maxHeight: 'calc(100% - 60px)',
             }}>
               <p style={{ margin: 0 }}>
                 I specialize in building modern web applications using <strong style={{ color: '#00ff41' }}>React</strong> and <strong style={{ color: '#00ff41' }}>Next.js</strong> for 

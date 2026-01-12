@@ -13,6 +13,7 @@ const Dashboard = () => {
   const gridRef = useRef(null);
   const dockRef = useRef(null);
   const profileRef = useRef(null);
+  const profileFlipRef = useRef(null);
   const projectsRef = useRef(null);
   const skillsRef = useRef(null);
   const skillsFlipRef = useRef(null);
@@ -28,6 +29,7 @@ const Dashboard = () => {
     switch (item) {
       case 'PROFILE':
         targetRef = profileRef;
+        shouldFlip = true;
         break;
       case 'PROJECTS':
         targetRef = projectsRef;
@@ -49,7 +51,9 @@ const Dashboard = () => {
       
       if (shouldFlip) {
         setTimeout(() => {
-          if (item === 'SKILLS' && skillsFlipRef.current?.flip) {
+          if (item === 'PROFILE' && profileFlipRef.current?.flip) {
+            profileFlipRef.current.flip();
+          } else if (item === 'SKILLS' && skillsFlipRef.current?.flip) {
             skillsFlipRef.current.flip();
           } else if (item === 'COMMS' && commsFlipRef.current?.flip) {
             commsFlipRef.current.flip();
@@ -129,18 +133,7 @@ const Dashboard = () => {
 
         {/* MODULE A: PROFILE (Top Left) */}
         <div ref={profileRef} className="grid-item" style={{ ...styles.card, gridColumn: '1', gridRow: '1' }}>
-          <HologramCard>
-            {/* We remove padding: '20px' from innerCard via inline style override
-        so the scan effect can breathe, or keep it if you like the border. 
-        Here I'll keep the border but organize the content with BioScan.
-    */}
-            <div style={styles.innerCard}>
-              <h3 style={{ borderBottom: '1px solid #00ff41', paddingBottom: '5px', marginBottom: '10px' }}>
-                IDENTITY
-              </h3>
-              <BioScan />
-            </div>
-          </HologramCard>
+          <BioScan ref={profileFlipRef} />
         </div>
 
         {/* MODULE B: PROJECTS (Top Right - Wide) */}
@@ -319,6 +312,17 @@ const styles = {
 // Add media query styles via CSS
 const styleSheet = document.createElement('style');
 styleSheet.textContent = `
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   @media (max-width: 768px) {
    /* Container padding on mobile */
     [style*="padding: 20px"] {
