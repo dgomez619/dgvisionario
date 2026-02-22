@@ -39,6 +39,7 @@ const SkillsFlipCard = forwardRef((props, ref) => {
   const frontStyle = {
     ...faceStyle,
     pointerEvents: isFlipped ? 'none' : 'auto',
+    visibility: isFlipped ? 'hidden' : 'visible',
   };
 
   const backStyle = {
@@ -48,6 +49,7 @@ const SkillsFlipCard = forwardRef((props, ref) => {
     zIndex: 1,
     overflow: 'visible',
     pointerEvents: isFlipped ? 'auto' : 'none',
+    visibility: isFlipped ? 'visible' : 'hidden',
   };
 
   const innerCardStyle = {
@@ -72,22 +74,24 @@ const SkillsFlipCard = forwardRef((props, ref) => {
         
         {/* FRONT SIDE - HologramCard wrapped inside */}
         <div style={frontStyle}>
-          <HologramCard>
-            <div style={innerCardStyle} onClick={() => setIsFlipped(true)}>
-              <h3 style={{
-                position: 'absolute', 
-                top: '10px', 
-                left: '10px', 
-                zIndex: 10, 
-                fontSize: '12px',
-                margin: 0,
-                color: '#00ff41'
-              }}>
-                SYSTEM SPECS
-              </h3>
-              <SkillCube />
-            </div>
-          </HologramCard>
+          {!isFlipped ? (
+            <HologramCard>
+              <div style={innerCardStyle} onClick={() => setIsFlipped(true)}>
+                <h3 style={{
+                  position: 'absolute', 
+                  top: '10px', 
+                  left: '10px', 
+                  zIndex: 10, 
+                  fontSize: '12px',
+                  margin: 0,
+                  color: '#00ff41'
+                }}>
+                  SYSTEM SPECS
+                </h3>
+                <SkillCube />
+              </div>
+            </HologramCard>
+          ) : null}
         </div>
 
         {/* BACK SIDE - No HologramCard, static */}
