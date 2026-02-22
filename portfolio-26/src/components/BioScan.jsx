@@ -281,7 +281,7 @@ const BioScan = () => {
         </div>
         <div style={styles.row}>
           <span style={styles.label}>ROLE:</span>
-          <span style={styles.value}>FULLSTACK DEV</span>
+          <span style={styles.value}>FULLSTACK</span>
         </div>
         <div style={styles.row}>
           <span style={styles.label}>FOCUS:</span>
