@@ -130,7 +130,11 @@ const ContactModule = forwardRef((props, ref) => {
       }}>
         
         {/* --- FRONT SIDE (Tilt Active) --- */}
-        <div style={styles.faceFront}>
+        <div style={{
+          ...styles.faceFront,
+          pointerEvents: isFlipped ? 'none' : 'auto',
+          visibility: isFlipped ? 'hidden' : 'visible',
+        }}>
           <HologramCard disabled={false}>
             <div style={{...styles.innerCard, padding: '10px'}}> 
               <div style={styles.flexContainer}>
@@ -143,7 +147,11 @@ const ContactModule = forwardRef((props, ref) => {
         </div>
 
         {/* --- BACK SIDE (Tilt DISABLED - Static) --- */}
-        <div style={styles.faceBack}>
+        <div style={{
+          ...styles.faceBack,
+          pointerEvents: isFlipped ? 'auto' : 'none',
+          visibility: isFlipped ? 'visible' : 'hidden',
+        }}>
           <div style={{...styles.innerCard, transform: 'none', transformStyle: 'flat'}}>
             <div style={styles.formHeader}>
               <h3 style={styles.header}>SECURE MESSAGE</h3>
@@ -192,6 +200,8 @@ const styles = {
     height: '100%',
     transition: 'transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1)',
     transformStyle: 'preserve-3d',
+    WebkitTransformStyle: 'preserve-3d',
+    willChange: 'transform',
   },
   faceFront: {
     position: 'absolute',
@@ -199,6 +209,9 @@ const styles = {
     height: '100%',
     backfaceVisibility: 'hidden',
     WebkitBackfaceVisibility: 'hidden',
+    transform: 'rotateY(0deg) translateZ(0)',
+    WebkitTransform: 'rotateY(0deg) translateZ(0)',
+    overflow: 'hidden',
     zIndex: 2, // Ensure front is on top when not flipped
   },
   faceBack: {
@@ -207,8 +220,10 @@ const styles = {
     height: '100%',
     backfaceVisibility: 'hidden',
     WebkitBackfaceVisibility: 'hidden',
-    transform: 'rotateY(180deg)',
+    transform: 'rotateY(180deg) translateZ(0)',
+    WebkitTransform: 'rotateY(180deg) translateZ(0)',
     transformStyle: 'flat', // Prevent 3D propagation
+    overflow: 'hidden',
     zIndex: 1,
   },
   innerCard: {

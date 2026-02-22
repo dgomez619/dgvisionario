@@ -36,12 +36,18 @@ const SkillsFlipCard = forwardRef((props, ref) => {
     overflow: 'hidden',
   };
 
+  const frontStyle = {
+    ...faceStyle,
+    pointerEvents: isFlipped ? 'none' : 'auto',
+  };
+
   const backStyle = {
     ...faceStyle,
     transform: 'rotateY(180deg)',
     transformStyle: 'flat',
     zIndex: 1,
     overflow: 'visible',
+    pointerEvents: isFlipped ? 'auto' : 'none',
   };
 
   const innerCardStyle = {
@@ -57,6 +63,7 @@ const SkillsFlipCard = forwardRef((props, ref) => {
     alignItems: 'center',
     position: 'relative',
     boxSizing: 'border-box',
+    minHeight: 0,
   };
 
   return (
@@ -64,7 +71,7 @@ const SkillsFlipCard = forwardRef((props, ref) => {
       <div style={flipperStyle}>
         
         {/* FRONT SIDE - HologramCard wrapped inside */}
-        <div style={faceStyle}>
+        <div style={frontStyle}>
           <HologramCard>
             <div style={innerCardStyle} onClick={() => setIsFlipped(true)}>
               <h3 style={{
@@ -131,10 +138,13 @@ const SkillsFlipCard = forwardRef((props, ref) => {
               lineHeight: '1.6',
               overflowY: 'auto',
               WebkitOverflowScrolling: 'touch',
+              touchAction: 'pan-y',
+              overscrollBehavior: 'contain',
               width: '100%',
               flex: 1,
               paddingRight: '8px',
-              maxHeight: 'calc(100% - 60px)',
+              maxHeight: '100%',
+              minHeight: 0,
             }}>
               <p style={{ margin: 0 }}>
                 I specialize in building modern web applications using <strong style={{ color: '#00ff41' }}>React</strong> and <strong style={{ color: '#00ff41' }}>Next.js</strong> for 
