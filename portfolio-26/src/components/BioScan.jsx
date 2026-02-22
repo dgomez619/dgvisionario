@@ -169,22 +169,14 @@ const BioScanFlipCard = forwardRef((props, ref) => {
         transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
       }}>
         {/* FRONT SIDE - Original BioScan */}
-        <div style={{
-          ...flipStyles.front,
-          pointerEvents: isFlipped ? 'none' : 'auto',
-          visibility: isFlipped ? 'hidden' : 'visible',
-        }}>
+        <div style={flipStyles.front}>
           <div style={{ ...flipStyles.innerCard, cursor: 'pointer' }} onClick={() => setIsFlipped(true)}>
-            <BioScan />
+            {!isFlipped ? <BioScan /> : null}
           </div>
         </div>
 
         {/* BACK SIDE - 4 Row Layout */}
-        <div style={{
-          ...flipStyles.back,
-          pointerEvents: isFlipped ? 'auto' : 'none',
-          visibility: isFlipped ? 'visible' : 'hidden',
-        }}>
+        <div style={flipStyles.back}>
           <div style={flipStyles.innerCard}>
             {!expandedSection ? (
               <>
@@ -440,8 +432,6 @@ const flipStyles = {
     height: '100%',
     transition: 'transform 0.8s',
     transformStyle: 'preserve-3d',
-    WebkitTransformStyle: 'preserve-3d',
-    willChange: 'transform',
   },
   front: {
     position: 'absolute',
@@ -449,9 +439,6 @@ const flipStyles = {
     height: '100%',
     backfaceVisibility: 'hidden',
     WebkitBackfaceVisibility: 'hidden',
-    transform: 'rotateY(0deg) translateZ(0)',
-    WebkitTransform: 'rotateY(0deg) translateZ(0)',
-    overflow: 'hidden',
   },
   back: {
     position: 'absolute',
@@ -459,9 +446,7 @@ const flipStyles = {
     height: '100%',
     backfaceVisibility: 'hidden',
     WebkitBackfaceVisibility: 'hidden',
-    transform: 'rotateY(180deg) translateZ(0)',
-    WebkitTransform: 'rotateY(180deg) translateZ(0)',
-    overflow: 'hidden',
+    transform: 'rotateY(180deg)',
   },
   innerCard: {
     width: '100%',
