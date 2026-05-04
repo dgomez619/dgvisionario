@@ -19,6 +19,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-parallax-tilt": "^1.7.315",
+    "react-pdf": "^10.4.1",
     "three": "^0.182.0"
   },
   "devDependencies": {

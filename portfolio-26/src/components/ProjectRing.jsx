@@ -6,12 +6,13 @@ import project1Img from '../assets/project1.png';
 import project2Img from '../assets/project2.png'; 
 import project3Img from '../assets/project3.png'; 
 import project4Img from '../assets/project4.png';
+import project5Img from '../assets/project5.png';
 
 const projects = [
-  { id: 1, title: 'PROJECT ALPHA', type: 'WEB APP', status: 'DEPLOYED', image: project1Img, link: '#', desc: 'Full-stack application with autonomous routing.' },
-  { id: 2, title: 'NEON CORE', type: 'GAME DEV', status: 'DEMO', image: project2Img, link: '#', desc: 'Cyberpunk physics engine built in WebGL.' },
-  { id: 3, title: 'DATA NEXUS', type: 'BACKEND', status: 'OFFLINE', image: project3Img, link: '#', desc: 'High-frequency trading algorithm dashboard.' },
-  { id: 4, title: 'VOID SHELL', type: 'UI LIB', status: 'WIP', image: project4Img, link: '#', desc: 'Component library for sci-fi interfaces.' },
+  { id: 1, title: 'BIRD ROCK SURF SHOP', type: 'WEB APP', status: 'DEPLOYED', image: project1Img, link: 'https://sd-surf-shop.netlify.app', desc: 'Full-stack application with autonomous routing.' },
+  { id: 2, title: 'COACH MARK', type: 'WEB APP', status: 'DEMO', image: project2Img, link: 'https://dgomez619.github.io/football-coach/#', desc: 'Youth coaching platform with interactive features.' },
+  { id: 3, title: 'HOSPEDAJE POR DIAS', type: 'WEB APP', status: 'OFFLINE', image: project3Img, link: 'https://hpdvnz.netlify.app', desc: 'Short-term rental management platform.' },
+  { id: 4, title: 'MAPAGYM', type: 'WEB APP', status: 'IN DEVELOPMENT', image: project5Img, link: 'https://mapagym.netlify.app', desc: 'Fitness tracking and gym management application.' },
   { id: 5, title: 'CYBER DECK', type: 'HARDWARE', status: 'CONCEPT', image: project1Img, link: '#', desc: 'Physical macro-pad for developers.' },
 ];
 

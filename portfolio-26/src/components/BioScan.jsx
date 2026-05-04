@@ -2,6 +2,15 @@ import React, { useEffect, useRef, useState, useImperativeHandle, forwardRef } f
 import { animate } from 'animejs';
 import bioscan1 from '../assets/bioscan1.png';
 import { X, ChevronLeft, Download } from 'lucide-react';
+import { Document, Page, pdfjs } from 'react-pdf';
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
+import resumePdf from '../assets/resume.pdf';
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url,
+).toString();
 
 const BioScanFlipCard = forwardRef((props, ref) => {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -37,27 +46,43 @@ const BioScanFlipCard = forwardRef((props, ref) => {
           <div style={contentStyles.container}>
             <h3 style={contentStyles.title}>EDUCATION</h3>
             <div style={contentStyles.content}>
-              <div style={contentStyles.item}>
-                <div style={contentStyles.itemHeader}>
-                  <h4 style={contentStyles.degree}>Computer Science</h4>
-                  <span style={contentStyles.year}>2018 - 2022</span>
-                </div>
-                <p style={contentStyles.institution}>University of Technology</p>
-                <p style={contentStyles.description}>
-                  Focus on web development, algorithms, and software engineering principles.
-                </p>
-              </div>
-              
-              <div style={contentStyles.item}>
+
+               <div style={contentStyles.item}>
                 <div style={contentStyles.itemHeader}>
                   <h4 style={contentStyles.degree}>Full Stack Development Bootcamp</h4>
-                  <span style={contentStyles.year}>2022</span>
+                  <span style={contentStyles.year}>2019</span>
                 </div>
-                <p style={contentStyles.institution}>Coding Academy</p>
+                <p style={contentStyles.institution}>UCSD Extension - TrilogyED</p>
                 <p style={contentStyles.description}>
                   Intensive program covering MERN stack, modern frameworks, and deployment strategies.
                 </p>
               </div>
+
+
+              <div style={contentStyles.item}>
+                <div style={contentStyles.itemHeader}>
+                  <h4 style={contentStyles.degree}>Web Development AS</h4>
+                  <span style={contentStyles.year}>2019 - 2022 </span>
+                  <p style={contentStyles.description}>(Completed core coursework, degree not conferred)</p>
+
+                </div>
+                <p style={contentStyles.institution}>San Diego Mesa College</p>
+                <p style={contentStyles.description}>
+                  Focus on web development fundamentals, JavaScript, and modern frameworks. Completed projects in React and Node.js.
+                </p>
+              </div>
+
+                  <div style={contentStyles.item}>
+                <div style={contentStyles.itemHeader}>
+                  <h4 style={contentStyles.degree}>JavaScript Algorithms and Data Structures</h4>
+                  <span style={contentStyles.year}>2025</span>
+                </div>
+                <p style={contentStyles.institution}>Free Code Camp</p>
+                <p style={contentStyles.description}>
+                  Completed comprehensive curriculum covering JavaScript fundamentals, algorithms, and data structures with hands-on coding challenges.
+                </p>
+              </div>
+
             </div>
           </div>
         );
@@ -74,11 +99,11 @@ const BioScanFlipCard = forwardRef((props, ref) => {
                 </div>
                 <p style={contentStyles.institution}>Tech Innovations Inc.</p>
                 <p style={contentStyles.description}>
-                  Building scalable web applications using React, Node.js, and cloud services. 
+                  Building scalable web applications using React, Node.js, and cloud services.
                   Led development of multiple client-facing projects with focus on performance and UX.
                 </p>
               </div>
-              
+
               <div style={contentStyles.item}>
                 <div style={contentStyles.itemHeader}>
                   <h4 style={contentStyles.degree}>Frontend Developer</h4>
@@ -86,10 +111,11 @@ const BioScanFlipCard = forwardRef((props, ref) => {
                 </div>
                 <p style={contentStyles.institution}>Digital Solutions Co.</p>
                 <p style={contentStyles.description}>
-                  Developed responsive user interfaces and interactive components. 
+                  Developed responsive user interfaces and interactive components.
                   Collaborated with design team to implement pixel-perfect designs.
                 </p>
               </div>
+              
             </div>
           </div>
         );
@@ -107,7 +133,7 @@ const BioScanFlipCard = forwardRef((props, ref) => {
                   ))}
                 </div>
               </div>
-              
+
               <div style={contentStyles.techSection}>
                 <h4 style={contentStyles.techCategory}>Backend</h4>
                 <div style={contentStyles.techGrid}>
@@ -116,7 +142,7 @@ const BioScanFlipCard = forwardRef((props, ref) => {
                   ))}
                 </div>
               </div>
-              
+
               <div style={contentStyles.techSection}>
                 <h4 style={contentStyles.techCategory}>Tools & Others</h4>
                 <div style={contentStyles.techGrid}>
@@ -135,12 +161,23 @@ const BioScanFlipCard = forwardRef((props, ref) => {
             <h3 style={contentStyles.title}>RESUME</h3>
             <div style={{ ...contentStyles.content, alignItems: 'center', justifyContent: 'center' }}>
               <div style={contentStyles.resumePreview}>
-                <div style={contentStyles.resumePlaceholder}>
-                  <span style={{ fontSize: '48px', opacity: 0.5 }}>📄</span>
-                  <p style={{ margin: '10px 0', fontSize: '14px', opacity: 0.7 }}>Resume Preview</p>
-                </div>
+                <Document
+                  file={resumePdf}
+                  loading={<span style={{ color: '#00ff41', fontFamily: 'monospace', fontSize: '13px' }}>LOADING...</span>}
+                  error={<span style={{ color: '#ff4141', fontFamily: 'monospace', fontSize: '13px' }}>FAILED TO LOAD</span>}
+                >
+                  <Page
+                    pageNumber={1}
+                    width={320}
+                    renderTextLayer={true}
+                    renderAnnotationLayer={false}
+                  />
+                </Document>
               </div>
-              <button style={contentStyles.downloadBtn}
+              <a
+                href={resumePdf}
+                download="resume.pdf"
+                style={contentStyles.downloadBtn}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'scale(1.05)';
                   e.currentTarget.style.boxShadow = '0 0 30px rgba(0, 255, 65, 0.5)';
@@ -152,7 +189,7 @@ const BioScanFlipCard = forwardRef((props, ref) => {
               >
                 <Download size={20} />
                 <span>DOWNLOAD RESUME</span>
-              </button>
+              </a>
             </div>
           </div>
         );
@@ -180,8 +217,8 @@ const BioScanFlipCard = forwardRef((props, ref) => {
           <div style={flipStyles.innerCard}>
             {!expandedSection ? (
               <>
-                <button 
-                  onClick={handleClose} 
+                <button
+                  onClick={handleClose}
                   style={flipStyles.closeBtn}
                   onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
                   onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
@@ -215,8 +252,8 @@ const BioScanFlipCard = forwardRef((props, ref) => {
               </>
             ) : (
               <div style={flipStyles.expandedContent}>
-                <button 
-                  onClick={handleClose} 
+                <button
+                  onClick={handleClose}
                   style={flipStyles.backBtn}
                   onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
                   onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
@@ -236,14 +273,14 @@ const BioScanFlipCard = forwardRef((props, ref) => {
 // Original BioScan component (now used as front side content)
 const BioScan = () => {
   const lineRef = useRef(null);
-  
+
   useEffect(() => {
     // Laser scanning animation
     animate(lineRef.current, {
       top: ['0%', '100%'],
-      opacity: [0, 1, 0],   
+      opacity: [0, 1, 0],
       duration: 2000,
-      ease: 'inOutSine',    
+      ease: 'inOutSine',
       loop: true,
       direction: 'alternate'
     });
@@ -253,21 +290,21 @@ const BioScan = () => {
     <div style={styles.container} className="bioscan-container-mobile">
       {/* 1. The Image Frame - Now Larger & Centered */}
       <div style={styles.frame}>
-        <img 
-          src={bioscan1} 
-          alt="User Scan" 
-          style={styles.image} 
+        <img
+          src={bioscan1}
+          alt="User Scan"
+          style={styles.image}
         />
-        
+
         {/* The Green Filter Overlay */}
         <div style={styles.greenOverlay}></div>
-        
+
         {/* The Grid Texture */}
         <div style={styles.gridOverlay}></div>
-        
+
         {/* The Moving Laser Line */}
         <div ref={lineRef} style={styles.scanLine}></div>
-        
+
         {/* Corner Accents for "Tech" feel */}
         <div style={styles.cornerTL}></div>
         <div style={styles.cornerBR}></div>
@@ -383,7 +420,7 @@ const styles = {
     zIndex: 5,
   },
   readout: {
-   display: 'flex',
+    display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     gap: '8px',
@@ -619,15 +656,15 @@ const contentStyles = {
   },
   resumePreview: {
     width: '90%',
-    maxWidth: 'min(400px, 80%)',
-    aspectRatio: '8.5 / 11',
-    border: '2px dashed rgba(0, 255, 65, 0.3)',
+    maxWidth: '360px',
+    border: '2px solid rgba(0, 255, 65, 0.3)',
     borderRadius: '8px',
+    overflow: 'hidden',
+    marginBottom: 'clamp(15px, 3%, 20px)',
+    background: '#fff',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 'clamp(15px, 3%, 20px)',
-    background: 'rgba(0, 255, 65, 0.05)',
   },
   resumePlaceholder: {
     textAlign: 'center',
@@ -649,6 +686,7 @@ const contentStyles = {
     transition: 'all 0.3s',
     boxShadow: '0 0 20px rgba(0, 255, 65, 0.3)',
     whiteSpace: 'nowrap',
+    textDecoration: 'none',
   },
 };
 
