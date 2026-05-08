@@ -9,11 +9,10 @@ import project4Img from '../assets/project4.png';
 import project5Img from '../assets/project5.png';
 
 const projects = [
-  { id: 1, title: 'BIRD ROCK SURF SHOP', type: 'WEB APP', status: 'DEPLOYED', image: project1Img, link: 'https://sd-surf-shop.netlify.app', desc: 'Full-stack application with autonomous routing.' },
-  { id: 2, title: 'COACH MARK', type: 'WEB APP', status: 'DEMO', image: project2Img, link: 'https://dgomez619.github.io/football-coach/#', desc: 'Youth coaching platform with interactive features.' },
-  { id: 3, title: 'HOSPEDAJE POR DIAS', type: 'WEB APP', status: 'OFFLINE', image: project3Img, link: 'https://hpdvnz.netlify.app', desc: 'Short-term rental management platform.' },
-  { id: 4, title: 'MAPAGYM', type: 'WEB APP', status: 'IN DEVELOPMENT', image: project5Img, link: 'https://mapagym.netlify.app', desc: 'Fitness tracking and gym management application.' },
-  { id: 5, title: 'CYBER DECK', type: 'HARDWARE', status: 'CONCEPT', image: project1Img, link: '#', desc: 'Physical macro-pad for developers.' },
+  { id: 1, title: 'BIRD ROCK SURF SHOP', type: 'WEB APP', status: 'DEPLOYED', image: project1Img, link: 'https://sd-surf-shop.netlify.app', desc: 'Full-stack application with autonomous routing.', stack: ['REACT', 'VITE', 'FIGMA'] },
+  { id: 2, title: 'COACH MARK', type: 'WEB APP', status: 'DEMO', image: project2Img, link: 'https://dgomez619.github.io/football-coach/#', desc: 'Youth coaching platform with interactive features.', stack: ['REACT', 'VITE', 'TAILWINDCSS'] },
+  { id: 3, title: 'HOSPEDAJE POR DIAS', type: 'WEB APP', status: 'OFFLINE', image: project3Img, link: 'https://hpdvnz.netlify.app', desc: 'Short-term rental management platform.', stack: ['REACT', 'VITE', 'TAILWINDCSS', 'CLOUDINARY'] },
+  { id: 4, title: 'MAPAGYM', type: 'WEB APP', status: 'IN DEVELOPMENT', image: project5Img, link: 'https://mapagym.netlify.app', desc: 'Fitness tracking and gym management application.', stack: ['REACT', 'VITE', 'GOOGLE MAPS API', 'MATERIAL UI'] },
 ];
 
 const ProjectRing = () => {
@@ -64,6 +63,7 @@ const ProjectRing = () => {
             pointerEvents: isAnimating ? 'none' : 'auto',
           }}
         >
+          <h3 style={{ position: 'absolute', top: 10, left: 10, zIndex: 10 }}>MISSION LOG</h3>
           <div style={styles.carouselContainer}>
             <div 
               style={{
@@ -145,19 +145,19 @@ const ProjectRing = () => {
           }}
         >
           {/* Header */}
-          <div style={styles.detailHeader}>
+          <div className="detail-header" style={styles.detailHeader}>
             <div>
               <span style={{color: '#00ff41'}}>{`>> TARGET_LOCKED: `}</span>
               {selectedProject.title}
             </div>
-            <button onClick={handleBack} style={styles.closeBtn}>[ ABORT ]</button>
+            <button onClick={handleBack} style={styles.closeBtn}>[ABORT]</button>
           </div>
 
           {/* Body */}
-          <div style={styles.detailBody}>
+          <div className="detail-body" style={styles.detailBody}>
             {/* Left: Visual */}
-            <div style={styles.projectVisual}>
-               <a href={selectedProject.link} className="image-link-wrapper" style={styles.imgLink}>
+            <div className="project-visual" style={styles.projectVisual}>
+               <a href={selectedProject.link} target="_blank" rel="noopener noreferrer" className="image-link-wrapper" style={styles.imgLink}>
                   <img src={selectedProject.image} alt={selectedProject.title} style={styles.detailImg} />
                   <div className="launch-overlay" style={styles.launchOverlay}>
                     INITIALIZE_LINK >>
@@ -167,14 +167,14 @@ const ProjectRing = () => {
             </div>
             
             {/* Right: Data */}
-            <div style={styles.projectInfo}>
-              <h1 style={styles.bigTitle}>{selectedProject.title}</h1>
+            <div className="project-info" style={styles.projectInfo}>
+              <h1 className="big-title" style={styles.bigTitle}>{selectedProject.title}</h1>
               <p style={styles.desc}>{selectedProject.desc}</p>
               
               <div style={styles.techStack}>
-                 <span style={styles.tag}>REACT</span>
-                 <span style={styles.tag}>NODE</span>
-                 <span style={styles.tag}>WEBGL</span>
+                 {selectedProject.stack.map((tech) => (
+                   <span key={tech} style={styles.tag}>{tech}</span>
+                 ))}
               </div>
 
               <div style={styles.stats}>
@@ -205,6 +205,33 @@ const ProjectRing = () => {
           border: 1px solid #00ff41;
         }
         .image-link-wrapper:hover .launch-overlay { opacity: 1; }
+
+        @media (max-width: 768px) {
+          .detail-header {
+            height: auto !important;
+            min-height: 50px !important;
+            flex-wrap: wrap !important;
+            gap: 6px !important;
+            padding: 8px 12px !important;
+            font-size: 11px !important;
+          }
+          .detail-body {
+            flex-direction: column !important;
+            padding: 12px !important;
+            gap: 12px !important;
+          }
+          .project-visual {
+            height: 200px !important;
+            min-height: unset !important;
+            flex: none !important;
+          }
+          .project-info {
+            flex: none !important;
+          }
+          .big-title {
+            font-size: 18px !important;
+          }
+        }
       `}</style>
     </div>
   );
@@ -367,6 +394,7 @@ const styles = {
   bigTitle: {
     fontSize: '28px', color: '#fff', marginBottom: '15px',
     textShadow: '0 0 10px rgba(0,255,65,0.3)',
+    wordBreak: 'break-word',
   },
   desc: { lineHeight: '1.6', fontSize: '14px', marginBottom: '25px', color: '#aaa' },
   techStack: { display: 'flex', gap: '10px', marginBottom: '30px' },

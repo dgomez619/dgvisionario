@@ -140,7 +140,6 @@ const Dashboard = () => {
         <div ref={projectsRef} className="grid-item" style={{ ...styles.card, gridColumn: '2', gridRow: '1' }}>
           {/* No HologramCard wrapper here, the ring handles its own 3D logic */}
           <div style={styles.innerCard}> {/* You might want to remove padding here to give the ring space */}
-            <h3 style={{ position: 'absolute', top: 10, left: 10, zIndex: 10 }}>MISSION LOG</h3>
             <ProjectRing />
           </div>
         </div>

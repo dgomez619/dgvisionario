@@ -97,22 +97,20 @@ const BioScanFlipCard = forwardRef((props, ref) => {
                   <h4 style={contentStyles.degree}>Full Stack Developer</h4>
                   <span style={contentStyles.year}>2023 - Present</span>
                 </div>
-                <p style={contentStyles.institution}>Tech Innovations Inc.</p>
+                <p style={contentStyles.institution}>Hospedaje por Dias.</p>
                 <p style={contentStyles.description}>
-                  Building scalable web applications using React, Node.js, and cloud services.
-                  Led development of multiple client-facing projects with focus on performance and UX.
+                  Developed and currently maintain a full-stack web application for short-term rental management, featuring both guest-facing and administrative interfaces. Implemented functionality for guest communication, booking management, property listing management, calendar synchronization with third-party platforms such as Airbnb and Booking.com, and overall platform administration. Designed the system to support efficient property management workflows and scalable operations.
                 </p>
               </div>
 
               <div style={contentStyles.item}>
                 <div style={contentStyles.itemHeader}>
-                  <h4 style={contentStyles.degree}>Frontend Developer</h4>
-                  <span style={contentStyles.year}>2022 - 2023</span>
+                  <h4 style={contentStyles.degree}>Coach Mark</h4>
+                  <span style={contentStyles.year}>2023 - Present</span>
                 </div>
                 <p style={contentStyles.institution}>Digital Solutions Co.</p>
                 <p style={contentStyles.description}>
-                  Developed responsive user interfaces and interactive components.
-                  Collaborated with design team to implement pixel-perfect designs.
+                 Designed and developed a full-stack web platform for a youth sports coaching business, enabling athlete onboarding, training program management, event scheduling, location mapping, and direct communication with athletes and parents. Implemented separate administrative and client-facing interfaces to improve operational efficiency and user engagement.
                 </p>
               </div>
               
@@ -137,7 +135,7 @@ const BioScanFlipCard = forwardRef((props, ref) => {
               <div style={contentStyles.techSection}>
                 <h4 style={contentStyles.techCategory}>Backend</h4>
                 <div style={contentStyles.techGrid}>
-                  {['Node.js', 'Express', 'MongoDB', 'PostgreSQL', 'REST APIs', 'GraphQL'].map(tech => (
+                  {['Node.js', 'Express', 'MongoDB', 'Firebase', 'REST APIs', 'GraphQL'].map(tech => (
                     <span key={tech} style={contentStyles.techTag}>{tech}</span>
                   ))}
                 </div>
@@ -146,7 +144,7 @@ const BioScanFlipCard = forwardRef((props, ref) => {
               <div style={contentStyles.techSection}>
                 <h4 style={contentStyles.techCategory}>Tools & Others</h4>
                 <div style={contentStyles.techGrid}>
-                  {['Git', 'Docker', 'Vite', 'Webpack', 'Vercel', 'AWS'].map(tech => (
+                  {['Git', 'Adobe CC', 'Vite', 'Webpack', 'Vercel', 'AWS'].map(tech => (
                     <span key={tech} style={contentStyles.techTag}>{tech}</span>
                   ))}
                 </div>

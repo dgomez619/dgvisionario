@@ -124,6 +124,20 @@ const ContactModule = forwardRef((props, ref) => {
 
   return (
     <div style={styles.perspectiveContainer}>
+      <style>{`
+        @media (max-width: 768px) {
+          .contact-back {
+            padding: 12px !important;
+            height: auto !important;
+            min-height: 100%;
+            overflow-y: auto;
+          }
+          .contact-back textarea {
+            min-height: 70px !important;
+            flex: none !important;
+          }
+        }
+      `}</style>
       <div style={{
         ...styles.flipper,
         transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
@@ -152,7 +166,7 @@ const ContactModule = forwardRef((props, ref) => {
           pointerEvents: isFlipped ? 'auto' : 'none',
           visibility: isFlipped ? 'visible' : 'hidden',
         }}>
-          <div style={{...styles.innerCard, transform: 'none', transformStyle: 'flat'}}>
+          <div className="contact-back" style={{...styles.innerCard, transform: 'none', transformStyle: 'flat'}}>
             <div style={styles.formHeader}>
               <h3 style={styles.header}>SECURE MESSAGE</h3>
               <button onClick={() => setIsFlipped(false)} style={styles.closeBtn}>
