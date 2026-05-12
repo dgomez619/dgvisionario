@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useImperativeHandle, forwardRef } from 'react';
 import { animate } from 'animejs';
 import bioscan1 from '../assets/bioscan1.png';
+import bioscan1Small from '../assets/bioscan1-small.png';
 import { X, ChevronLeft, Download } from 'lucide-react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
@@ -105,10 +106,10 @@ const BioScanFlipCard = forwardRef((props, ref) => {
 
               <div style={contentStyles.item}>
                 <div style={contentStyles.itemHeader}>
-                  <h4 style={contentStyles.degree}>Coach Mark</h4>
+                  <h4 style={contentStyles.degree}>Full Stack Developer</h4>
                   <span style={contentStyles.year}>2023 - Present</span>
                 </div>
-                <p style={contentStyles.institution}>Digital Solutions Co.</p>
+                <p style={contentStyles.institution}>Coach Mark.</p>
                 <p style={contentStyles.description}>
                  Designed and developed a full-stack web platform for a youth sports coaching business, enabling athlete onboarding, training program management, event scheduling, location mapping, and direct communication with athletes and parents. Implemented separate administrative and client-facing interfaces to improve operational efficiency and user engagement.
                 </p>
@@ -271,6 +272,17 @@ const BioScanFlipCard = forwardRef((props, ref) => {
 // Original BioScan component (now used as front side content)
 const BioScan = () => {
   const lineRef = useRef(null);
+  const mainImgRef = useRef(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Handle the case where the browser has already cached the main image.
+  // setTimeout defers the update past the current render cycle to avoid cascading renders.
+  useEffect(() => {
+    if (mainImgRef.current?.complete) {
+      const timer = setTimeout(() => setIsLoaded(true), 0);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   useEffect(() => {
     // Laser scanning animation
@@ -288,24 +300,60 @@ const BioScan = () => {
     <div style={styles.container} className="bioscan-container-mobile">
       {/* 1. The Image Frame - Now Larger & Centered */}
       <div style={styles.frame}>
+        {/* Placeholder: no mixBlendMode so it's always visible against dark bg */}
         <img
+          src={bioscan1Small}
+          alt=""
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'top center',
+            filter: 'grayscale(100%) brightness(0.9) contrast(1.2) sepia(100%) hue-rotate(70deg) saturate(300%) blur(8px)',
+            transform: 'scale(1.08)',
+            opacity: isLoaded ? 0 : 1,
+            transition: 'opacity 0.5s ease',
+            zIndex: 1,
+          }}
+        />
+        {/* Full-resolution image fades in once loaded */}
+        <img
+          ref={mainImgRef}
           src={bioscan1}
           alt="User Scan"
-          style={styles.image}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'top center',
+            filter: 'grayscale(100%) brightness(0.9) contrast(1.2) sepia(100%) hue-rotate(70deg) saturate(300%)',
+            mixBlendMode: 'luminosity',
+            opacity: isLoaded ? 1 : 0,
+            transition: 'opacity 0.7s ease',
+            zIndex: 2,
+          }}
+          onLoad={() => setIsLoaded(true)}
         />
 
-        {/* The Green Filter Overlay */}
-        <div style={styles.greenOverlay}></div>
+        {/* The Green Filter Overlay — z-index above both images */}
+        <div style={{ ...styles.greenOverlay, zIndex: 3 }}></div>
 
-        {/* The Grid Texture */}
-        <div style={styles.gridOverlay}></div>
+        {/* The Grid Texture — z-index above both images */}
+        <div style={{ ...styles.gridOverlay, zIndex: 4 }}></div>
 
         {/* The Moving Laser Line */}
         <div ref={lineRef} style={styles.scanLine}></div>
 
         {/* Corner Accents for "Tech" feel */}
-        <div style={styles.cornerTL}></div>
-        <div style={styles.cornerBR}></div>
+        <div style={{ ...styles.cornerTL, zIndex: 5 }}></div>
+        <div style={{ ...styles.cornerBR, zIndex: 5 }}></div>
       </div>
 
       {/* 2. The Data Readout */}
@@ -353,6 +401,9 @@ const styles = {
     boxShadow: '0 0 25px rgba(0, 255, 65, 0.2), inset 0 0 10px rgba(0,255,65,0.1)',
   },
   image: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
     width: '100%',
     height: '100%',
     objectFit: 'cover',
