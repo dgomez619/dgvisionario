@@ -84,6 +84,31 @@ const BioScanFlipCard = forwardRef((props, ref) => {
                 </p>
               </div>
 
+                   <div style={contentStyles.item}>
+                <div style={contentStyles.itemHeader}>
+                  <h4 style={contentStyles.degree}>Frontend Development Certificate</h4>
+                  <span style={contentStyles.year}>2025 – 2026
+</span>
+                </div>
+                <p style={contentStyles.institution}>UCSD Extension - San Diego Workforce</p>
+                <p style={contentStyles.description}>
+         Intensive focus on frontend architecture and MERN stack integration. Hands-on projects building responsive, user-centric web applications with React, fundamental JavaScript, and modern CSS techniques.
+         
+                </p>
+              </div>
+
+                   <div style={contentStyles.item}>
+                <div style={contentStyles.itemHeader}>
+                  <h4 style={contentStyles.degree}>Google UX Design Certificate
+</h4>
+                  <span style={contentStyles.year}>2025 - 2026</span>
+                </div>
+                <p style={contentStyles.institution}>Google</p>
+                <p style={contentStyles.description}>
+Comprehensive training in the UX process, including empathy, defining user needs, ideation, wireframing, and high-fidelity prototyping in Figma.
+                </p>
+              </div>
+
             </div>
           </div>
         );
