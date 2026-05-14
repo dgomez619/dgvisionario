@@ -13,7 +13,7 @@ const projects = [
   { id: 2, title: 'COACH MARK', type: 'WEB APP', status: 'DEMO', image: project2Img, link: 'https://dgomez619.github.io/football-coach/#', desc: 'Youth coaching platform with interactive features.', stack: ['REACT', 'VITE', 'TAILWINDCSS'] },
   { id: 3, title: 'HOSPEDAJE POR DIAS', type: 'WEB APP', status: 'OFFLINE', image: project3Img, link: 'https://hpdvnz.netlify.app', desc: 'Short-term rental management platform.', stack: ['REACT', 'VITE', 'TAILWINDCSS', 'CLOUDINARY'] },
   { id: 4, title: 'MAPAGYM', type: 'WEB APP', status: 'IN DEVELOPMENT', image: project5Img, link: 'https://mapagym.netlify.app', desc: 'Fitness tracking and gym management application.', stack: ['REACT', 'VITE', 'GOOGLE MAPS API', 'MATERIAL UI'] },
-  { id: 5, title: 'SPACE TRAVEL', type: 'WEB SITE', status: 'DEPLOYED', image: project4Img, link: 'https://comforting-bavarois-5bd4d5.netlify.app/', desc: 'Personal portfolio showcasing projects and skills.', stack: ['HTML', 'CSS', 'JAVASCRIPT'] },
+  { id: 5, title: 'SPACE TRAVEL', type: 'WEB SITE', status: 'DEPLOYED', image: project4Img, link: 'https://comforting-bavarois-5bd4d5.netlify.app/', desc: 'Fundamental use of HTML, CSS, and JavaScript to produce an interactive web experience.', stack: ['HTML', 'CSS', 'JAVASCRIPT'] },
 ];
 
 const ProjectRing = () => {
