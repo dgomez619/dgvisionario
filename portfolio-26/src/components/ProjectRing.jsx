@@ -169,7 +169,7 @@ const ProjectRing = () => {
             
             {/* Right: Data */}
             <div className="project-info" style={styles.projectInfo}>
-              <h1 className="big-title" style={styles.bigTitle}>{selectedProject.title}</h1>
+              {/* <h1 className="big-title" style={styles.bigTitle}>{selectedProject.title}</h1> */}
               <p style={styles.desc}>{selectedProject.desc}</p>
               
               <div style={styles.techStack}>
