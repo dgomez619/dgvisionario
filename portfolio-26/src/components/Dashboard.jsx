@@ -239,6 +239,9 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'space-between',
     boxShadow: '0 0 10px rgba(0, 255, 65, 0.1)',
+    padding: '10px',
+    borderRadius: '10px',
+    overflow: 'hidden',
   },
   placeholderImg: {
     width: '60px',

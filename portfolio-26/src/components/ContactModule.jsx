@@ -125,12 +125,23 @@ const ContactModule = forwardRef((props, ref) => {
   return (
     <div style={styles.perspectiveContainer}>
       <style>{`
+        .contact-back {
+          overflow-y: auto;
+          overscroll-behavior: contain;
+        }
+
+        .contact-form-scroll {
+          flex: 1;
+          min-height: 0;
+          overflow-y: auto;
+          padding-right: 4px;
+        }
+
         @media (max-width: 768px) {
           .contact-back {
             padding: 12px !important;
-            height: auto !important;
+            height: 100% !important;
             min-height: 100%;
-            overflow-y: auto;
           }
           .contact-back textarea {
             min-height: 70px !important;
@@ -174,26 +185,28 @@ const ContactModule = forwardRef((props, ref) => {
               </button>
             </div>
 
-            <form ref={form} onSubmit={sendEmail} style={styles.form}>
-              <input type="text" name="user_name" placeholder="AGENT_ID (Name)" style={styles.input} required />
-              <input type="email" name="user_email" placeholder="RETURN_ADDRESS (Email)" style={styles.input} required />
-              <textarea name="message" placeholder="TRANSMISSION DATA..." style={styles.textarea} required></textarea>
-              <button type="submit" style={styles.submitBtn}>INITIATE_UPLOAD</button>
-              {submissionMessage && (
-                <div style={{
-                  color: submissionMessage.includes('success') ? '#00ff41' : '#ff4141',
-                  fontFamily: 'monospace',
-                  fontSize: '12px',
-                  textAlign: 'center',
-                  marginTop: '10px',
-                  padding: '5px',
-                  border: `1px solid ${submissionMessage.includes('success') ? '#00ff41' : '#ff4141'}`,
-                  borderRadius: '3px',
-                }}>
-                  {submissionMessage}
-                </div>
-              )}
-            </form>
+            <div className="contact-form-scroll" style={styles.formScrollArea}>
+              <form ref={form} onSubmit={sendEmail} style={styles.form}>
+                <input type="text" name="user_name" placeholder="AGENT_ID (Name)" style={styles.input} required />
+                <input type="email" name="user_email" placeholder="RETURN_ADDRESS (Email)" style={styles.input} required />
+                <textarea name="message" placeholder="TRANSMISSION DATA..." style={styles.textarea} required></textarea>
+                <button type="submit" style={styles.submitBtn}>INITIATE_UPLOAD</button>
+                {submissionMessage && (
+                  <div style={{
+                    color: submissionMessage.includes('success') ? '#00ff41' : '#ff4141',
+                    fontFamily: 'monospace',
+                    fontSize: '12px',
+                    textAlign: 'center',
+                    marginTop: '10px',
+                    padding: '5px',
+                    border: `1px solid ${submissionMessage.includes('success') ? '#00ff41' : '#ff4141'}`,
+                    borderRadius: '3px',
+                  }}>
+                    {submissionMessage}
+                  </div>
+                )}
+              </form>
+            </div>
           </div>
         </div>
 
@@ -237,7 +250,7 @@ const styles = {
     transform: 'rotateY(180deg) translateZ(0)',
     WebkitTransform: 'rotateY(180deg) translateZ(0)',
     transformStyle: 'flat', // Prevent 3D propagation
-    overflow: 'hidden',
+    overflow: 'visible',
     zIndex: 1,
   },
   innerCard: {
@@ -318,8 +331,14 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     gap: '10px',
-    flex: 1,
+    minHeight: 'max-content',
     width: '100%',
+  },
+  formScrollArea: {
+    flex: 1,
+    minHeight: 0,
+    overflowY: 'auto',
+    paddingRight: '4px',
   },
   input: {
     background: 'rgba(0, 0, 0, 0.5)',
@@ -340,9 +359,9 @@ const styles = {
     padding: '10px',
     fontFamily: 'monospace',
     outline: 'none',
-    flex: 1,
+    flex: 'none',
     minHeight: '100px',
-    resize: 'none',
+    resize: 'vertical',
     fontSize: '12px',
     zIndex: 20,
     width: '100%',
