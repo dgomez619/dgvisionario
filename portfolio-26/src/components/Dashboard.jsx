@@ -230,8 +230,8 @@ const styles = {
     zIndex: 1,
   },
   innerCard: {
-    border: '1px solid #00ff41',
-    backgroundColor: 'rgba(13, 17, 23, 0.8)',
+    border: '0px solid #00ff41',
+    // backgroundColor: 'rgba(15, 23, 13, 0.8)',
     height: '100%',
     color: '#00ff41',
     fontFamily: 'monospace',

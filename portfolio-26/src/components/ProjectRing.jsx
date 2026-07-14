@@ -64,7 +64,7 @@ const ProjectRing = () => {
             pointerEvents: isAnimating ? 'none' : 'auto',
           }}
         >
-          <h3 style={{ position: 'absolute', top: 10, left: 10, zIndex: 10 }}>MISSION LOG</h3>
+          {/* <h3 style={{ position: 'absolute', top: 10, left: 10, zIndex: 10 }}>MISSION LOG</h3> */}
           <div style={styles.carouselContainer}>
             <div 
               style={{
