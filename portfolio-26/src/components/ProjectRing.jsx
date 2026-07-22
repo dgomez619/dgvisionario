@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import HologramCard from './HologramCard';
+import { trackEvent } from '../lib/analytics';
 
 // --- PLACEHOLDER DATA (Replace with your real imports) ---
 import project1Img from '../assets/project1.png'; 
@@ -33,6 +34,10 @@ const ProjectRing = () => {
   };
 
   const handleCardClick = (project) => {
+    trackEvent('project_opened', {
+      project_name: project.title,
+      project_status: project.status,
+    });
     setIsAnimating(true);
     // 1. Wait for fade-out animation
     setTimeout(() => {
@@ -158,10 +163,17 @@ const ProjectRing = () => {
           <div className="detail-body" style={styles.detailBody}>
             {/* Left: Visual */}
             <div className="project-visual" style={styles.projectVisual}>
-               <a href={selectedProject.link} target="_blank" rel="noopener noreferrer" className="image-link-wrapper" style={styles.imgLink}>
+               <a
+                 href={selectedProject.link}
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 className="image-link-wrapper"
+                 style={styles.imgLink}
+                 onClick={() => trackEvent('project_link_clicked', { project_name: selectedProject.title })}
+               >
                   <img src={selectedProject.image} alt={selectedProject.title} style={styles.detailImg} />
                   <div className="launch-overlay" style={styles.launchOverlay}>
-                    INITIALIZE_LINK >>
+                    {'INITIALIZE_LINK >>'}
                   </div>
                   <div style={styles.crtLines}></div>
                </a>

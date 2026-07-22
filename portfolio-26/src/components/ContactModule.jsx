@@ -2,6 +2,7 @@ import React, { useState, useRef, useImperativeHandle, forwardRef } from 'react'
 import HologramCard from './HologramCard';
 import emailjs from '@emailjs/browser';
 import { X } from 'lucide-react';
+import { trackEvent } from '../lib/analytics';
 
 // --- 1. TargetBox with "Closing In" Animation ---
 const TargetBox = ({ data, onClick }) => {
@@ -71,7 +72,10 @@ const TargetBox = ({ data, onClick }) => {
         style={styles.targetBox} 
         onMouseEnter={() => setIsHovered(true)} 
         onMouseLeave={() => setIsHovered(false)} 
-        onClick={onClick}
+        onClick={() => {
+          trackEvent('contact_form_opened');
+          onClick();
+        }}
       >
         {content}
       </div>
@@ -86,6 +90,7 @@ const TargetBox = ({ data, onClick }) => {
       style={styles.targetBox} 
       onMouseEnter={() => setIsHovered(true)} 
       onMouseLeave={() => setIsHovered(false)}
+      onClick={() => trackEvent('contact_link_clicked', { contact_method: data.label.toLowerCase() })}
     >
       {content}
     </a>
@@ -109,6 +114,7 @@ const ContactModule = forwardRef((props, ref) => {
       .then((result) => {
         console.log(result.text);
         setSubmissionMessage('Message sent successfully.');
+        trackEvent('contact_form_submitted');
       }, (error) => {
         console.log(error.text);
         setSubmissionMessage('An error occurred, please try again.');

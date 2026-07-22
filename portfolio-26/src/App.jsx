@@ -6,6 +6,7 @@ import EnterButton from './components/EnterButton';
 import Dashboard from './components/Dashboard';
 // import StarshipBackground from './components/StarshipBackground';
 import SpaceBackground from './components/SpaceBackground';
+import { trackEvent } from './lib/analytics';
 
 function App() {
   const [view, setView] = useState('boot'); 
@@ -13,6 +14,8 @@ function App() {
   const contentRef = useRef(null); 
 
   const handleEnterSystem = () => {
+    trackEvent('portfolio_entered');
+
     // 1. Fade out the text/button inside the terminal first
     animate(contentRef.current, {
       opacity: [1, 0],

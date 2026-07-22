@@ -7,6 +7,7 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import resumePdf from '../assets/resume.pdf';
+import { trackEvent } from '../lib/analytics';
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.mjs',
@@ -202,6 +203,7 @@ Comprehensive training in the UX process, including empathy, defining user needs
                 href={resumePdf}
                 download="resume.pdf"
                 style={contentStyles.downloadBtn}
+                onClick={() => trackEvent('resume_downloaded')}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'scale(1.05)';
                   e.currentTarget.style.boxShadow = '0 0 30px rgba(0, 255, 65, 0.5)';
