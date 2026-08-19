@@ -100,29 +100,30 @@ const SkillCube = () => {
         }
 
         /* --- RESPONSIVE ADJUSTMENT --- */
-        /* On mobile, make it larger and ensure proper centering */
+        /* Keep the cube within its responsive dashboard card on mobile. */
         @media (max-width: 768px) {
           .cube-wrapper {
-            min-height: 400px;
-            padding: 20px;
+            min-height: 0;
+            padding: 4px;
+            box-sizing: border-box;
           }
           
           .box-card { 
-            width: 200px; 
-            height: 200px; 
+            width: 165px; 
+            height: 165px; 
           }
           
           .face { 
             font-size: 1.2rem; 
           }
           
-          /* Update Math for 200px (Half is 100px) */
-          .front  { transform: translateZ(100px); }
-          .back   { transform: translateZ(-100px) rotateY(180deg); }
-          .right  { transform: translateX(100px) rotateY(90deg); }
-          .left   { transform: translateX(-100px) rotateY(-90deg); }
-          .top    { transform: translateY(-100px) rotateX(90deg); }
-          .bottom { transform: translateY(100px) rotateX(-90deg); }
+          /* Update Math for 165px (half is 82.5px). */
+          .front  { transform: translateZ(82.5px); }
+          .back   { transform: translateZ(-82.5px) rotateY(180deg); }
+          .right  { transform: translateX(82.5px) rotateY(90deg); }
+          .left   { transform: translateX(-82.5px) rotateY(-90deg); }
+          .top    { transform: translateY(-82.5px) rotateX(90deg); }
+          .bottom { transform: translateY(82.5px) rotateX(-90deg); }
         }
       `}</style>
     </div>

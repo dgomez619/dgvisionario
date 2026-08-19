@@ -31,7 +31,7 @@ function App() {
 
   if (view === 'dashboard') {
     return (
-      <div style={styles.appContainer}>
+      <div style={styles.dashboardContainer}>
         {/* Animated space background */}
           {/* <StarshipBackground /> */}
           <SpaceBackground />
@@ -85,6 +85,15 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  dashboardContainer: {
+    position: 'relative',
+    width: '100%',
+    minHeight: '100vh',
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    overflowX: 'hidden',
   },
   backgroundWrapper: {
     position: 'absolute',

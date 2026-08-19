@@ -326,7 +326,7 @@ const BioScan = () => {
   return (
     <div style={styles.container} className="bioscan-container-mobile">
       {/* 1. The Image Frame - Now Larger & Centered */}
-      <div style={styles.frame}>
+      <div style={styles.frame} className="bioscan-frame-mobile">
         {/* Placeholder: no mixBlendMode so it's always visible against dark bg */}
         <img
           src={bioscan1Small}
@@ -384,7 +384,7 @@ const BioScan = () => {
       </div>
 
       {/* 2. The Data Readout */}
-      <div style={styles.readout}>
+      <div style={styles.readout} className="bioscan-readout-mobile">
         <div style={styles.row}>
           <span style={styles.label}>NAME:</span>
           <span style={styles.value}>DAN G</span>
@@ -783,10 +783,26 @@ if (!document.head.querySelector('[data-bioscan-styles]')) {
     }
     
     @media (max-width: 768px) {
-      /* Make BioScan front layout stack on mobile */
       .bioscan-container-mobile {
         flex-direction: column !important;
-        gap: clamp(8px, 2%, 15px) !important;
+        gap: 6px !important;
+        padding: 4px !important;
+      }
+
+      .bioscan-frame-mobile {
+        width: 142px !important;
+        height: 142px !important;
+      }
+
+      .bioscan-readout-mobile {
+        width: min(100%, 250px) !important;
+        gap: 3px !important;
+        padding: 3px 6px !important;
+        font-size: 12px !important;
+      }
+
+      .bioscan-readout-mobile > div {
+        padding-bottom: 2px !important;
       }
     }
   `;

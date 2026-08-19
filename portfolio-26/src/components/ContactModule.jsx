@@ -145,12 +145,18 @@ const ContactModule = forwardRef((props, ref) => {
 
         @media (max-width: 768px) {
           .contact-back {
-            padding: 12px !important;
+            padding: 8px !important;
             height: 100% !important;
             min-height: 100%;
           }
+          .contact-front {
+            padding: 6px !important;
+          }
+          .contact-front .contact-targets {
+            gap: 4px !important;
+          }
           .contact-back textarea {
-            min-height: 70px !important;
+            min-height: 54px !important;
             flex: none !important;
           }
         }
@@ -167,8 +173,8 @@ const ContactModule = forwardRef((props, ref) => {
           visibility: isFlipped ? 'hidden' : 'visible',
         }}>
           <HologramCard disabled={false}>
-            <div style={{...styles.innerCard, padding: '10px'}}> 
-              <div style={styles.flexContainer}>
+            <div className="contact-front" style={{...styles.innerCard, padding: '10px'}}> 
+              <div className="contact-targets" style={styles.flexContainer}>
                 <TargetBox data={targets[0]} />
                 <TargetBox data={targets[1]} />
                 <TargetBox data={targets[2]} onClick={() => setIsFlipped(true)} />
@@ -267,7 +273,7 @@ const styles = {
     flexDirection: 'column',
     boxSizing: 'border-box',
     boxShadow: '0 0 10px rgba(0, 255, 65, 0.1)',
-    padding: '20px', 
+    padding: '14px', 
   },
   flexContainer: {
     width: '100%',

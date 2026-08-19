@@ -48,7 +48,7 @@ const Dashboard = () => {
 
     if (targetRef?.current) {
       targetRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      
+
       if (shouldFlip) {
         setTimeout(() => {
           if (item === 'PROFILE' && profileFlipRef.current?.flip) {
@@ -72,12 +72,12 @@ const Dashboard = () => {
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
       const scrollPosition = window.scrollY;
       const scrollPercentage = (scrollPosition / scrollHeight) * 100;
-      
+
       setShowDockToggle(scrollPercentage > 40);
     };
 
     window.addEventListener('scroll', handleScroll);
-    
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -128,98 +128,99 @@ const Dashboard = () => {
 
   return (
     <>
-    <div style={styles.container}>
-      <div ref={gridRef} style={styles.grid}>
+      <div style={styles.container} className="dashboard-container">
+        {/* THE GRID LAYOUT */}
+        <div ref={gridRef} style={styles.grid} className="dashboard-grid">
 
-        {/* MODULE A: PROFILE (Top Left) */}
-        <div ref={profileRef} className="grid-item" style={{ ...styles.card, gridColumn: '1', gridRow: '1' }}>
-          <BioScan ref={profileFlipRef} />
+          {/* MODULE A: PROFILE (Top Left) */}
+          <div ref={profileRef} className="grid-item" style={{ ...styles.card, gridColumn: '1', gridRow: '1' }}>
+            <BioScan ref={profileFlipRef} />
+          </div>
+
+          {/* MODULE B: PROJECTS (Top Right - Wide) */}
+          <div ref={projectsRef} className="grid-item" style={{ ...styles.card, gridColumn: '2', gridRow: '1' }}>
+            {/* No HologramCard wrapper here, the ring handles its own 3D logic */}
+            <div style={styles.innerCard}> {/* You might want to remove padding here to give the ring space */}
+              <ProjectRing />
+            </div>
+          </div>
+
+          {/* MODULE C: SKILLS (Bottom Left) */}
+          <div ref={skillsRef} className="grid-item" style={{ ...styles.card, gridColumn: '1', gridRow: '2', cursor: 'pointer' }}>
+            <SkillsFlipCard ref={skillsFlipRef} />
+          </div>
+
+          {/* MODULE D: CONTACT */}
+          <div ref={commsRef} className="grid-item" style={{ ...styles.card, gridColumn: '2', gridRow: '2' }}>
+            {/* No HologramCard wrapper - ContactModule handles its own card with flip logic */}
+            <ContactModule ref={commsFlipRef} />
+          </div>
+
         </div>
 
-        {/* MODULE B: PROJECTS (Top Right - Wide) */}
-        <div ref={projectsRef} className="grid-item" style={{ ...styles.card, gridColumn: '2', gridRow: '1' }}>
-          {/* No HologramCard wrapper here, the ring handles its own 3D logic */}
-          <div style={styles.innerCard}> {/* You might want to remove padding here to give the ring space */}
-            <ProjectRing />
-          </div>
+        {/* MOBILE DOCK TOGGLE BUTTON */}
+        <button
+          onClick={() => setIsDockOpen(!isDockOpen)}
+          style={{
+            ...styles.dockToggle,
+            left: isDockOpen ? '20px' : '50%',
+            transform: isDockOpen ? 'translateX(0)' : 'translateX(-50%)',
+            opacity: showDockToggle ? 1 : 0,
+            pointerEvents: showDockToggle ? 'auto' : 'none',
+          }}
+          className="dashboard-dock-toggle"
+          aria-label="Toggle navigation menu"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2">
+            <circle cx="12" cy="12" r="10" />
+            <path d={isDockOpen ? "M8 12h8" : "M12 8v8M8 12h8"} />
+          </svg>
+        </button>
+
+        {/* THE DOCK */}
+        <div
+          ref={dockRef}
+          style={styles.dock}
+          className={`dashboard-dock ${isDockOpen ? 'open' : ''}`}
+        >
+          {['PROFILE', 'PROJECTS', 'SKILLS', 'COMMS'].map((item) => (
+            <div
+              key={item}
+              className="dock-item"
+              style={styles.dockItem}
+              onClick={() => handleDockItemClick(item)}
+            >
+              {item}
+            </div>
+          ))}
         </div>
-
-      {/* MODULE C: SKILLS (Bottom Left) */}
-<div ref={skillsRef} className="grid-item" style={{ ...styles.card, gridColumn: '1', gridRow: '2', cursor: 'pointer' }}>
-  <SkillsFlipCard ref={skillsFlipRef} />
-</div>
-
- {/* MODULE D: CONTACT */}
-<div ref={commsRef} className="grid-item" style={{ ...styles.card, gridColumn: '2', gridRow: '2' }}>
-  {/* No HologramCard wrapper - ContactModule handles its own card with flip logic */}
-    <ContactModule ref={commsFlipRef} />
-    <br />
-    <br />
-    
-</div>
-
       </div>
-
-      {/* MOBILE DOCK TOGGLE BUTTON */}
-      <button
-        onClick={() => setIsDockOpen(!isDockOpen)}
-        style={{
-          ...styles.dockToggle,
-          left: isDockOpen ? '20px' : '50%',
-          transform: isDockOpen ? 'translateX(0)' : 'translateX(-50%)',
-          opacity: showDockToggle ? 1 : 0,
-          pointerEvents: showDockToggle ? 'auto' : 'none',
-        }}
-        className="dashboard-dock-toggle"
-        aria-label="Toggle navigation menu"
-      >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2">
-          <circle cx="12" cy="12" r="10" />
-          <path d={isDockOpen ? "M8 12h8" : "M12 8v8M8 12h8"} />
-        </svg>
-      </button>
-
-      {/* THE DOCK */}
-      <div
-        ref={dockRef}
-        style={styles.dock}
-        className={`dashboard-dock ${isDockOpen ? 'open' : ''}`}
-      >
-        {['PROFILE', 'PROJECTS', 'SKILLS', 'COMMS'].map((item) => (
-          <div 
-            key={item} 
-            className="dock-item" 
-            style={styles.dockItem}
-            onClick={() => handleDockItemClick(item)}
-          >
-            {item}
-          </div>
-        ))}
-      </div>
-    </div>  
     </>
   );
 };
 
 const styles = {
   container: {
-    width: '100vw',
+    width: '100%',
     minHeight: '100vh',
+    flexShrink: 0,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     padding: '30px 10px',
     paddingBottom: '140px', // Extra room for the dock and toggle
-    overflowY: 'auto',
+    overflowY: 'visible',
+    boxSizing: 'border-box',
   },
   grid: {
     display: 'grid',
     gridTemplateColumns: '1fr 2fr', // 2 Columns: narrow left, wide right
-    gridTemplateRows: '1fr 1fr',    // 2 Rows
+    gridTemplateRows: 'minmax(0, 1fr) minmax(0, 1fr)', // Keep both rows stable when module content changes
     gap: '20px',
     width: '100%',
     maxWidth: '1200px',
     height: '80vh',
+    minHeight: 0,
   },
   card: {
     // The grid-item class is used for selection, styles are here
@@ -228,6 +229,8 @@ const styles = {
     opacity: 0, // Start hidden so they don't flash before animation
     position: 'relative',
     zIndex: 1,
+    minHeight: 0,
+    minWidth: 0,
   },
   innerCard: {
     border: '0px solid #00ff41',
@@ -242,6 +245,9 @@ const styles = {
     padding: '10px',
     borderRadius: '10px',
     overflow: 'hidden',
+    boxSizing: 'border-box',
+    minHeight: 0,
+    minWidth: 0,
   },
   placeholderImg: {
     width: '60px',
@@ -327,8 +333,9 @@ styleSheet.textContent = `
 
   @media (max-width: 768px) {
    /* Container padding on mobile */
-    [style*="padding: 20px"] {
-      padding: 80px 10px 220px 10px !important;
+    .dashboard-container {
+      align-items: flex-start !important;
+      padding: 16px 12px 112px !important;
     }
     /* Hide dock by default on mobile, show toggle button */
     .dashboard-dock-toggle {
@@ -353,36 +360,44 @@ styleSheet.textContent = `
 
   /* Mobile Grid Layout - Stack cards vertically */
   @media (max-width: 768px) {
-    [style*="gridTemplateColumns"] {
+    .dashboard-grid {
       grid-template-columns: 1fr !important;
-      grid-template-rows: auto !important;
+      grid-template-rows: 280px 320px 270px 240px !important;
       height: auto !important;
-      gap: 20px !important;
+      gap: 12px !important;
       padding: 0 !important;
-      padding-bottom: 40px !important;
+      padding-bottom: 24px !important;
       justify-items: center !important;
       align-items: stretch !important;
       margin-bottom: 20px !important;
     }
-    .grid-item {
+    .dashboard-grid .grid-item {
       grid-column: 1 !important;
       grid-row: auto !important;
-      width: 95vw !important;
-      max-width: 600px !important;
-      min-height: 400px !important;
-      height: auto !important;
+      width: min(100%, 600px) !important;
+      height: 100% !important;
+      min-height: 0 !important;
+    }
+  }
+
+  @media (max-width: 768px) and (max-height: 500px) {
+    .dashboard-grid {
+      grid-template-rows: 260px 290px 250px 230px !important;
     }
   }
 
   /* Extra separation between Module D and dock on smaller mobile screens */
   @media (max-width: 765px) {
-    [style*="gridTemplateColumns"] {
-      padding-bottom: 100px !important;
-      margin-bottom: 60px !important;
+    .dashboard-grid {
+      padding-bottom: 72px !important;
+      margin-bottom: 36px !important;
     }
   }
 `;
-if (!document.head.querySelector('[data-dashboard-styles]')) {
+const existingDashboardStyles = document.head.querySelector('[data-dashboard-styles]');
+if (existingDashboardStyles) {
+  existingDashboardStyles.textContent = styleSheet.textContent;
+} else {
   styleSheet.setAttribute('data-dashboard-styles', 'true');
   document.head.appendChild(styleSheet);
 }

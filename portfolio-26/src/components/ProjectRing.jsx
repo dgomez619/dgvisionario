@@ -63,6 +63,7 @@ const ProjectRing = () => {
       {/* ---------------------------------------------------- */}
       {!selectedProject && (
         <div 
+          className="project-ring-wrapper"
           style={{
             ...styles.ringWrapper, // Wrapper to handle opacity transition
             opacity: isAnimating ? 0 : 1,
@@ -70,7 +71,7 @@ const ProjectRing = () => {
           }}
         >
           {/* <h3 style={{ position: 'absolute', top: 10, left: 10, zIndex: 10 }}>MISSION LOG</h3> */}
-          <div style={styles.carouselContainer}>
+          <div className="project-ring-carousel-container" style={styles.carouselContainer}>
             <div 
               style={{
                 ...styles.carousel,
@@ -130,7 +131,7 @@ const ProjectRing = () => {
           </div>
 
           {/* CONTROLS */}
-          <div style={styles.controls}>
+          <div className="project-ring-controls" style={styles.controls}>
             <button onClick={() => rotateCarousel(-1)} style={styles.btn}>{'<'}</button>
             <span style={{ margin: '0 15px', color: '#00ff41', letterSpacing: '2px' }}>
               NAVIGATE
@@ -220,6 +221,18 @@ const ProjectRing = () => {
         .image-link-wrapper:hover .launch-overlay { opacity: 1; }
 
         @media (max-width: 768px) {
+          .project-ring-carousel-container {
+            top: 0 !important;
+            transform: scale(0.72);
+            transform-origin: center;
+          }
+          .project-ring-controls {
+            margin-top: 6px !important;
+          }
+          .project-ring-controls button {
+            padding: 5px 14px !important;
+            font-size: 16px !important;
+          }
           .detail-header {
             height: auto !important;
             min-height: 50px !important;
@@ -263,6 +276,8 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
+    minHeight: 0,
+    minWidth: 0,
     background: 'transparent', // Assuming Module B has the background
   },
   
@@ -355,6 +370,7 @@ const styles = {
   },
   detailHeader: {
     height: '50px',
+    flexShrink: 0,
     borderBottom: '1px solid #00ff41',
     display: 'flex',
     justifyContent: 'space-between',
@@ -378,16 +394,20 @@ const styles = {
   },
   detailBody: {
     flex: 1,
+    minHeight: 0,
+    minWidth: 0,
     display: 'flex',
     padding: '30px',
     gap: '30px',
     overflowY: 'auto',
+    boxSizing: 'border-box',
   },
   projectVisual: {
     flex: '1.2', // Image takes slightly more space
     border: '1px solid #333',
     position: 'relative',
     minHeight: '200px',
+    minWidth: 0,
   },
   imgLink: { width: '100%', height: '100%' },
   detailImg: { width: '100%', height: '100%', objectFit: 'cover', filter: 'sepia(20%) hue-rotate(50deg) contrast(1.1)' },
@@ -398,6 +418,7 @@ const styles = {
   },
   projectInfo: {
     flex: 1,
+    minWidth: 0,
     fontFamily: 'monospace',
     color: '#ccc',
     display: 'flex',
