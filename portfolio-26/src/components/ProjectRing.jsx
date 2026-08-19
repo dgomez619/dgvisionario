@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import HologramCard from './HologramCard';
 import { trackEvent } from '../lib/analytics';
 
@@ -22,6 +22,9 @@ const ProjectRing = () => {
   const [activeIndex, setActiveIndex] = useState(0);       // Controls Ring Rotation
   const [selectedProject, setSelectedProject] = useState(null); // Controls Detail View
   const [isAnimating, setIsAnimating] = useState(false);   // Controls Transitions
+  const touchStartX = useRef(null);
+  const touchStartY = useRef(null);
+  const didSwipe = useRef(false);
 
   // --- 3D MATH CONFIG (Your Original Settings) ---
   const radius = 220; // Slightly increased for breathing room
@@ -30,10 +33,40 @@ const ProjectRing = () => {
   // --- HANDLERS ---
   const rotateCarousel = (direction) => {
     if (selectedProject) return; // Lock rotation if viewing details
-    setActiveIndex(activeIndex + direction);
+    setActiveIndex((currentIndex) => currentIndex + direction);
+  };
+
+  const handleTouchStart = (event) => {
+    const touch = event.touches[0];
+    touchStartX.current = touch.clientX;
+    touchStartY.current = touch.clientY;
+    didSwipe.current = false;
+  };
+
+  const handleTouchEnd = (event) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - touchStartX.current;
+    const deltaY = touch.clientY - touchStartY.current;
+    const swipeThreshold = 35;
+
+    // Only rotate on intentional horizontal swipes; vertical gestures keep scrolling the page.
+    if (Math.abs(deltaX) >= swipeThreshold && Math.abs(deltaX) > Math.abs(deltaY)) {
+      didSwipe.current = true;
+      rotateCarousel(deltaX < 0 ? 1 : -1);
+    }
+
+    touchStartX.current = null;
+    touchStartY.current = null;
   };
 
   const handleCardClick = (project) => {
+    if (didSwipe.current) {
+      didSwipe.current = false;
+      return;
+    }
+
     trackEvent('project_opened', {
       project_name: project.title,
       project_status: project.status,
@@ -64,6 +97,8 @@ const ProjectRing = () => {
       {!selectedProject && (
         <div 
           className="project-ring-wrapper"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
           style={{
             ...styles.ringWrapper, // Wrapper to handle opacity transition
             opacity: isAnimating ? 0 : 1,
@@ -204,6 +239,7 @@ const ProjectRing = () => {
 
       {/* --- GLOBAL STYLES FOR HOVERS --- */}
       <style>{`
+        .project-ring-wrapper { touch-action: pan-y; }
         .ring-card { transition: transform 0.3s, filter 0.3s; cursor: pointer; }
         .ring-card:hover { transform: scale(1.05); filter: brightness(1.2); }
         
