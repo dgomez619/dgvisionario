@@ -163,7 +163,7 @@ const Dashboard = () => {
           onClick={() => setIsDockOpen(!isDockOpen)}
           style={{
             ...styles.dockToggle,
-            left: isDockOpen ? '20px' : '50%',
+            left: isDockOpen ? '8px' : '50%',
             transform: isDockOpen ? 'translateX(0)' : 'translateX(-50%)',
             opacity: showDockToggle ? 1 : 0,
             pointerEvents: showDockToggle ? 'auto' : 'none',

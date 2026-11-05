@@ -134,13 +134,53 @@ const ContactModule = forwardRef((props, ref) => {
         .contact-back {
           overflow-y: auto;
           overscroll-behavior: contain;
+          touch-action: pan-y;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: thin;
+          scrollbar-color: rgba(0, 255, 65, 0.5) rgba(0, 0, 0, 0.3);
         }
 
         .contact-form-scroll {
           flex: 1;
           min-height: 0;
           overflow-y: auto;
-          padding-right: 4px;
+          overscroll-behavior: contain;
+          touch-action: pan-y;
+          -webkit-overflow-scrolling: touch;
+          padding-right: 6px;
+          scrollbar-width: thin;
+          scrollbar-color: rgba(0, 255, 65, 0.5) rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-back textarea {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(0, 255, 65, 0.5) rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-back::-webkit-scrollbar,
+        .contact-form-scroll::-webkit-scrollbar,
+        .contact-back textarea::-webkit-scrollbar {
+          width: 5px;
+        }
+
+        .contact-back::-webkit-scrollbar-track,
+        .contact-form-scroll::-webkit-scrollbar-track,
+        .contact-back textarea::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.3);
+          border-radius: 3px;
+        }
+
+        .contact-back::-webkit-scrollbar-thumb,
+        .contact-form-scroll::-webkit-scrollbar-thumb,
+        .contact-back textarea::-webkit-scrollbar-thumb {
+          background: rgba(0, 255, 65, 0.45);
+          border-radius: 3px;
+        }
+
+        .contact-back::-webkit-scrollbar-thumb:hover,
+        .contact-form-scroll::-webkit-scrollbar-thumb:hover,
+        .contact-back textarea::-webkit-scrollbar-thumb:hover {
+          background: #00ff41;
         }
 
         @media (max-width: 768px) {
@@ -350,7 +390,10 @@ const styles = {
     flex: 1,
     minHeight: 0,
     overflowY: 'auto',
-    paddingRight: '4px',
+    WebkitOverflowScrolling: 'touch',
+    touchAction: 'pan-y',
+    overscrollBehavior: 'contain',
+    paddingRight: '6px',
   },
   input: {
     background: 'rgba(0, 0, 0, 0.5)',

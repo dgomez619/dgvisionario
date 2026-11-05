@@ -45,7 +45,7 @@ const BioScanFlipCard = forwardRef((props, ref) => {
     switch (sectionId) {
       case 'education':
         return (
-          <div style={contentStyles.container}>
+          <div className="bioscan-scroll-container" style={contentStyles.container}>
             <h3 style={contentStyles.title}>EDUCATION</h3>
             <div style={contentStyles.content}>
 
@@ -116,7 +116,7 @@ Comprehensive training in the UX process, including empathy, defining user needs
 
       case 'experience':
         return (
-          <div style={contentStyles.container}>
+          <div className="bioscan-scroll-container" style={contentStyles.container}>
             <h3 style={contentStyles.title}>EXPERIENCE</h3>
             <div style={contentStyles.content}>
               <div style={contentStyles.item}>
@@ -147,7 +147,7 @@ Comprehensive training in the UX process, including empathy, defining user needs
 
       case 'technologies':
         return (
-          <div style={contentStyles.container}>
+          <div className="bioscan-scroll-container" style={contentStyles.container}>
             <h3 style={contentStyles.title}>TECHNOLOGIES</h3>
             <div style={contentStyles.content}>
               <div style={contentStyles.techSection}>
@@ -182,7 +182,7 @@ Comprehensive training in the UX process, including empathy, defining user needs
 
       case 'resume':
         return (
-          <div style={contentStyles.container}>
+          <div className="bioscan-scroll-container" style={contentStyles.container}>
             <h3 style={contentStyles.title}>RESUME</h3>
             <div style={{ ...contentStyles.content, alignItems: 'center', justifyContent: 'center' }}>
               <div style={contentStyles.resumePreview}>
@@ -653,6 +653,8 @@ const contentStyles = {
     fontFamily: 'monospace',
     overflowY: 'auto',
     WebkitOverflowScrolling: 'touch',
+    touchAction: 'pan-y',
+    overscrollBehavior: 'contain',
     boxSizing: 'border-box',
   },
   title: {
@@ -767,46 +769,72 @@ const contentStyles = {
 };
 
 // Add CSS for hover effects and responsive styles
-if (!document.head.querySelector('[data-bioscan-styles]')) {
-  const bioScanStyles = document.createElement('style');
-  bioScanStyles.setAttribute('data-bioscan-styles', 'true');
-  bioScanStyles.textContent = `
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+const bioScanStyleContent = `
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
     }
-    
-    @media (max-width: 768px) {
-      .bioscan-container-mobile {
-        flex-direction: column !important;
-        gap: 6px !important;
-        padding: 4px !important;
-      }
-
-      .bioscan-frame-mobile {
-        width: 142px !important;
-        height: 142px !important;
-      }
-
-      .bioscan-readout-mobile {
-        width: min(100%, 250px) !important;
-        gap: 3px !important;
-        padding: 3px 6px !important;
-        font-size: 12px !important;
-      }
-
-      .bioscan-readout-mobile > div {
-        padding-bottom: 2px !important;
-      }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
-  `;
-  document.head.appendChild(bioScanStyles);
+  }
+
+  .bioscan-scroll-container {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 255, 65, 0.5) rgba(0, 0, 0, 0.3);
+  }
+  .bioscan-scroll-container::-webkit-scrollbar {
+    width: 5px;
+  }
+  .bioscan-scroll-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+  }
+  .bioscan-scroll-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 65, 0.45);
+    border-radius: 3px;
+  }
+  .bioscan-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: #00ff41;
+  }
+  
+  @media (max-width: 768px) {
+    .bioscan-container-mobile {
+      flex-direction: column !important;
+      gap: 6px !important;
+      padding: 4px !important;
+    }
+
+    .bioscan-frame-mobile {
+      width: 142px !important;
+      height: 142px !important;
+    }
+
+    .bioscan-readout-mobile {
+      width: min(100%, 250px) !important;
+      gap: 3px !important;
+      padding: 3px 6px !important;
+      font-size: 12px !important;
+    }
+
+    .bioscan-readout-mobile > div {
+      padding-bottom: 2px !important;
+    }
+  }
+`;
+
+if (typeof document !== 'undefined') {
+  const existingBioScanStyles = document.head.querySelector('[data-bioscan-styles]');
+  if (existingBioScanStyles) {
+    existingBioScanStyles.textContent = bioScanStyleContent;
+  } else {
+    const bioScanStyles = document.createElement('style');
+    bioScanStyles.setAttribute('data-bioscan-styles', 'true');
+    bioScanStyles.textContent = bioScanStyleContent;
+    document.head.appendChild(bioScanStyles);
+  }
 }
 
 export default BioScanFlipCard;
