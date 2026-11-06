@@ -1,0 +1,21 @@
+{
+  "name": "Dan G | Full Stack Developer Portfolio",
+  "short_name": "Dan G",
+  "description": "Full Stack Web Developer specializing in React, Next.js, TypeScript, Node.js, and interactive 3D web experiences.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d1117",
+  "theme_color": "#00ff41",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/oglogo.png",
+      "sizes": "1200x630",
+      "type": "image/png"
+    }
+  ]
+}

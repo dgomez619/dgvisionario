@@ -10,10 +10,10 @@ import project4Img from '../assets/project4.png';
 import project5Img from '../assets/project5.png';
 
 const projects = [
-  { id: 1, title: 'BIRD ROCK SURF SHOP', type: 'WEB APP', status: 'DEPLOYED', image: project1Img, link: 'https://sd-surf-shop.netlify.app', desc: 'Full-stack application with autonomous routing.', stack: ['REACT', 'VITE', 'FIGMA'] },
-  { id: 2, title: 'COACH MARK', type: 'WEB APP', status: 'DEMO', image: project2Img, link: 'https://dgomez619.github.io/football-coach/#', desc: 'Youth coaching platform with interactive features.', stack: ['REACT', 'VITE', 'TAILWINDCSS'] },
-  { id: 3, title: 'HOSPEDAJE POR DIAS', type: 'WEB APP', status: 'OFFLINE', image: project3Img, link: 'https://hpdvnz.netlify.app', desc: 'Short-term rental management platform.', stack: ['REACT', 'VITE', 'TAILWINDCSS', 'CLOUDINARY'] },
-  { id: 4, title: 'MAPAGYM', type: 'WEB APP', status: 'IN DEVELOPMENT', image: project5Img, link: 'https://mapagym.netlify.app', desc: 'Fitness tracking and gym management application.', stack: ['REACT', 'VITE', 'GOOGLE MAPS API', 'MATERIAL UI'] },
+  { id: 1, title: 'HOSPEDAJE POR DIAS', type: 'WEB APP', status: 'OFFLINE', image: project3Img, link: 'https://hpdvnz.netlify.app', desc: 'Short-term rental management platform.', stack: ['REACT', 'VITE', 'TAILWINDCSS', 'CLOUDINARY'] },
+  { id: 2, title: 'BIRD ROCK SURF SHOP', type: 'WEB APP', status: 'DEPLOYED', image: project1Img, link: 'https://sd-surf-shop.netlify.app', desc: 'Full-stack application with autonomous routing.', stack: ['REACT', 'VITE', 'FIGMA'] },
+  { id: 3, title: 'MAPAGYM', type: 'WEB APP', status: 'IN DEVELOPMENT', image: project5Img, link: 'https://mapagym.netlify.app', desc: 'Fitness tracking and gym management application.', stack: ['REACT', 'VITE', 'GOOGLE MAPS API', 'MATERIAL UI'] },
+  { id: 4, title: 'COACH MARK', type: 'WEB APP', status: 'DEMO', image: project2Img, link: 'https://dgomez619.github.io/football-coach/#', desc: 'Youth coaching platform with interactive features.', stack: ['REACT', 'VITE', 'TAILWINDCSS'] },
   { id: 5, title: 'SPACE TRAVEL', type: 'WEB SITE', status: 'DEPLOYED', image: project4Img, link: 'https://comforting-bavarois-5bd4d5.netlify.app/', desc: 'Fundamental use of HTML, CSS, and JavaScript to produce an interactive web experience.', stack: ['HTML', 'CSS', 'JAVASCRIPT'] },
 ];
 

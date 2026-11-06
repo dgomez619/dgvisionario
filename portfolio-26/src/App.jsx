@@ -61,7 +61,7 @@ function App() {
             <BootSequence onComplete={() => setView('intro')} />
           ) : (
             <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-              <h1 style={{ marginTop: 0 }}>ACCESS GRANTED</h1>
+              <h2 style={{ marginTop: 0, fontSize: '3.2em', lineHeight: 1.1 }}>ACCESS GRANTED</h2>
               <p>COMMAND: Waiting for manual override...</p>
               
               <div style={{ margin: '40px auto' }}>
