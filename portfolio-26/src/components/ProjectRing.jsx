@@ -347,7 +347,7 @@ const ProjectRing = () => {
               </div>
             </div>
             <button onClick={handleBack} className="cyber-abort-btn" style={styles.closeBtn}>
-              [ ✕ ABORT ]
+              [✕]
             </button>
           </div>
 
@@ -929,7 +929,8 @@ const styles = {
     color: '#d0e2d6',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    marginTop: '0',
   },
   sectionLabel: {
     fontSize: '10px',
