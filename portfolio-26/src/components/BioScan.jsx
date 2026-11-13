@@ -251,10 +251,11 @@ Comprehensive training in the UX process, including empathy, defining user needs
                 <button
                   onClick={handleClose}
                   style={flipStyles.closeBtn}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.15)'}
                   onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                  aria-label="Close menu"
                 >
-                  <X size={24} />
+                  <X size={18} />
                 </button>
                 <div style={flipStyles.rowsContainer}>
                   {sections.map((section, index) => (
@@ -592,18 +593,19 @@ const flipStyles = {
   },
   closeBtn: {
     position: 'absolute',
-    top: 'clamp(8px, 2%, 10px)',
-    right: 'clamp(8px, 2%, 10px)',
+    top: '6px',
+    right: '8px',
     background: 'none',
     border: 'none',
-    color: '#00ff41',
+    color: '#ff003c',
     cursor: 'pointer',
     zIndex: 100,
-    padding: 'clamp(3px, 1%, 5px)',
+    padding: '4px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    transition: 'transform 0.2s',
+    transition: 'transform 0.2s, filter 0.2s',
+    filter: 'drop-shadow(0 0 6px rgba(255, 0, 60, 0.45))',
   },
   backBtn: {
     position: 'absolute',
@@ -625,6 +627,8 @@ const flipStyles = {
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
+    paddingTop: '28px',
+    boxSizing: 'border-box',
   },
   row: {
     flex: 1,
