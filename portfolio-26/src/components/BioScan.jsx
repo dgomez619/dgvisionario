@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useImperativeHandle, forwardRef } f
 import { animate } from 'animejs';
 import bioscan1 from '../assets/bioscan1.png';
 import bioscan1Small from '../assets/bioscan1-small.png';
+import imgTransition from '../assets/imgtransition.jpg';
 import { X, ChevronLeft, Download } from 'lucide-react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
@@ -233,7 +234,11 @@ Comprehensive training in the UX process, including empathy, defining user needs
       }}>
         {/* FRONT SIDE - Original BioScan */}
         <div style={flipStyles.front}>
-          <div style={{ ...flipStyles.innerCard, cursor: 'pointer' }} onClick={() => setIsFlipped(true)}>
+          <div
+            className="bioscan-front-card"
+            style={{ ...flipStyles.innerCard, cursor: 'pointer' }}
+            onClick={() => setIsFlipped(true)}
+          >
             {!isFlipped ? <BioScan /> : null}
           </div>
         </div>
@@ -326,7 +331,7 @@ const BioScan = () => {
   return (
     <div style={styles.container} className="bioscan-container-mobile">
       {/* 1. The Image Frame - Now Larger & Centered */}
-      <div style={styles.frame} className="bioscan-frame-mobile">
+      <div style={styles.frame} className="bioscan-frame-mobile bioscan-glitch-frame">
         {/* Placeholder: no mixBlendMode so it's always visible against dark bg */}
         <img
           src={bioscan1Small}
@@ -352,6 +357,7 @@ const BioScan = () => {
           ref={mainImgRef}
           src={bioscan1}
           alt="User Scan"
+          className="bioscan-base-img"
           style={{
             position: 'absolute',
             top: 0,
@@ -369,18 +375,33 @@ const BioScan = () => {
           onLoad={() => setIsLoaded(true)}
         />
 
-        {/* The Green Filter Overlay — z-index above both images */}
-        <div style={{ ...styles.greenOverlay, zIndex: 3 }}></div>
+        {/* Hover Transition Target Image (Original Colors) */}
+        <img
+          src={imgTransition}
+          alt="User Profile Transition"
+          className="bioscan-hover-img"
+        />
 
-        {/* The Grid Texture — z-index above both images */}
-        <div style={{ ...styles.gridOverlay, zIndex: 4 }}></div>
+        {/* Glitch Slice Overlay Layer (Original Colors + Polygon Clip Tearing) */}
+        <img
+          src={imgTransition}
+          alt=""
+          aria-hidden="true"
+          className="bioscan-glitch-slice"
+        />
+
+        {/* The Green Filter Overlay — fades out on hover so original colors shine through */}
+        <div className="bioscan-green-overlay" style={{ ...styles.greenOverlay, zIndex: 5 }}></div>
+
+        {/* The Grid Texture — z-index above images */}
+        <div style={{ ...styles.gridOverlay, zIndex: 6 }}></div>
 
         {/* The Moving Laser Line */}
         <div ref={lineRef} style={styles.scanLine}></div>
 
         {/* Corner Accents for "Tech" feel */}
-        <div style={{ ...styles.cornerTL, zIndex: 5 }}></div>
-        <div style={{ ...styles.cornerBR, zIndex: 5 }}></div>
+        <div style={{ ...styles.cornerTL, zIndex: 7 }}></div>
+        <div style={{ ...styles.cornerBR, zIndex: 7 }}></div>
       </div>
 
       {/* 2. The Data Readout */}
@@ -770,6 +791,23 @@ const contentStyles = {
 
 // Add CSS for hover effects and responsive styles
 const bioScanStyleContent = `
+  :root {
+    --bioscan-flicker: linear(
+      0 0%,
+      0.1864 6.17%,
+      0.0001 14.41%,
+      0.5244 20.97%,
+      0.3927 37.91%,
+      0.8115 60.62%,
+      0.9416 61.92%,
+      0.9928 67.98%,
+      0.5032 70.42%,
+      0.9077 96.96%,
+      0.6736 98.74%,
+      1 100%
+    );
+  }
+
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -778,6 +816,136 @@ const bioScanStyleContent = `
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  .bioscan-glitch-frame {
+    --shimmy-distance: 5;
+    --clip-one: polygon(0 2%, 100% 2%, 100% 95%, 95% 95%, 95% 90%, 85% 90%, 85% 95%, 8% 95%, 0 70%);
+    --clip-two: polygon(0 78%, 100% 78%, 100% 100%, 95% 100%, 95% 90%, 85% 90%, 85% 100%, 8% 100%, 0 78%);
+    --clip-three: polygon(0 44%, 100% 44%, 100% 54%, 95% 54%, 95% 54%, 85% 54%, 85% 54%, 8% 54%, 0 54%);
+    --clip-four: polygon(0 0, 100% 0, 100% 0, 95% 0, 95% 0, 85% 0, 85% 0, 8% 0, 0 0);
+    --clip-five: polygon(0 0, 100% 0, 100% 0, 95% 0, 95% 0, 85% 0, 85% 0, 8% 0, 0 0);
+    --clip-six: polygon(0 40%, 100% 40%, 100% 85%, 95% 85%, 95% 85%, 85% 85%, 85% 85%, 8% 85%, 0 70%);
+    --clip-seven: polygon(0 63%, 100% 63%, 100% 80%, 95% 80%, 95% 80%, 85% 80%, 85% 80%, 8% 80%, 0 70%);
+  }
+
+  .bioscan-hover-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    opacity: 0;
+    z-index: 3;
+    pointer-events: none;
+    transition: opacity 0.35s ease-out;
+  }
+
+  .bioscan-glitch-slice {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    opacity: 0;
+    z-index: 4;
+    pointer-events: none;
+    filter: contrast(1.15) saturate(1.25) drop-shadow(-2px 0 #00e5ff) drop-shadow(2px 0 #ff003c);
+  }
+
+  .bioscan-green-overlay {
+    transition: opacity 0.35s ease;
+  }
+
+  .bioscan-front-card:is(:hover, :focus-visible) .bioscan-hover-img {
+    opacity: 1;
+    animation: bioscan-flicker 0.625s var(--bioscan-flicker) forwards;
+  }
+
+  .bioscan-front-card:is(:hover, :focus-visible) .bioscan-glitch-slice {
+    opacity: 1;
+    animation: bioscan-glitch 2s infinite;
+  }
+
+  .bioscan-front-card:is(:hover, :focus-visible) .bioscan-green-overlay {
+    opacity: 0;
+  }
+
+  @keyframes bioscan-flicker {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes bioscan-glitch {
+    0% {
+      clip-path: var(--clip-one);
+    }
+    2%,
+    8% {
+      clip-path: var(--clip-two);
+      transform: translate(calc(var(--shimmy-distance) * -1%), 0);
+    }
+    6% {
+      clip-path: var(--clip-two);
+      transform: translate(calc(var(--shimmy-distance) * 1%), 0);
+    }
+    9% {
+      clip-path: var(--clip-two);
+      transform: translate(0, 0);
+    }
+    10% {
+      clip-path: var(--clip-three);
+      transform: translate(calc(var(--shimmy-distance) * 1%), 0);
+    }
+    13% {
+      clip-path: var(--clip-three);
+      transform: translate(0, 0);
+    }
+    14%,
+    21% {
+      clip-path: var(--clip-four);
+      transform: translate(calc(var(--shimmy-distance) * 1%), 0);
+    }
+    25% {
+      clip-path: var(--clip-five);
+      transform: translate(calc(var(--shimmy-distance) * 1%), 0);
+    }
+    30% {
+      clip-path: var(--clip-five);
+      transform: translate(calc(var(--shimmy-distance) * -1%), 0);
+    }
+    35%,
+    45% {
+      clip-path: var(--clip-six);
+      transform: translate(calc(var(--shimmy-distance) * -1%), 0);
+    }
+    40% {
+      clip-path: var(--clip-six);
+      transform: translate(calc(var(--shimmy-distance) * 1%), 0);
+    }
+    50% {
+      clip-path: var(--clip-six);
+      transform: translate(0, 0);
+    }
+    55% {
+      clip-path: var(--clip-seven);
+      transform: translate(calc(var(--shimmy-distance) * 1%), 0);
+    }
+    60% {
+      clip-path: var(--clip-seven);
+      transform: translate(0, 0);
+    }
+    31%,
+    61%,
+    100% {
+      clip-path: var(--clip-four);
     }
   }
 
